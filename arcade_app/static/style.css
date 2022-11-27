@@ -1,0 +1,57 @@
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal__scoreList {
+    color: red;
+    list-style: none;
+    font-family: monofett;
+    font-size: 1.5rem;
+    padding: 0;
+}
+
+.page {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.page__gameArea {
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    align-items: center;
+    justify-content: center;
+}
+
+.controlButtons {
+    width: 25vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.controlButtons__button {
+    margin: 0.2rem;
+    width: 12.5vw;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.leftrightButtons {
+    display: flex;
+    flex-direction: row;
+}
+
+

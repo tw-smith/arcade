@@ -24,6 +24,7 @@ let food = {
 let snake = {
   segments: STARTING_POSITIONS,
 };
+let dir = ""
 
 // Initialise canvas
 function init () {
@@ -33,9 +34,95 @@ function init () {
   ctx = canvas.getContext('2d');
 
   // Add eventListener for keystrokes and start game
-  document.addEventListener("keydown", controls)
+  document.addEventListener("keydown", parseKeyInput);
+  document.getElementById("upButton").addEventListener("click", function() {
+    controls("up")
+  });
+  document.getElementById("downButton").addEventListener("click", function() {
+    controls("down")
+  });
+  document.getElementById("leftButton").addEventListener("click", function() {
+    controls("left")
+  });
+  document.getElementById("rightButton").addEventListener("click", function() {
+    controls("right")
+  });
   setInterval_ID = gameStart(render_rate);
 }
+
+function parseKeyInput(e) {
+    switch (e.keyCode){
+      case 65:
+        dir = "left";
+        break;
+      case 87:
+        dir = "up";
+        break;
+      case 68:
+        dir = "right";
+        break;
+      case 83:
+        dir = "down";
+        break;
+    }
+    controls(dir)
+}
+
+async function postScore() {
+  let form = document.forms.scoreForm;
+  //let form = document.getElementById("scoreForm")
+  const formData = { username: form.username.value,
+                     score: score};
+
+  let response = await fetch('/score', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(formData)
+  })
+  console.log(response)
+  if (response.ok) {
+    getHighScores()
+  } else {
+    console.log("post response not ok")
+  }
+}
+
+  
+async function getHighScores() {
+  let response = await fetch('/score', {
+    method: 'GET'
+  })
+  if (response.ok) {
+    let output = await response.json();
+    console.log(output)
+    displayHighScores(output)
+  } else {
+    console.log("get response not ok")
+  }
+}
+
+function displayHighScores(highScores) {
+  var list = document.createElement("ul");
+  list.className = "modal__scoreList"
+  for (let i of highScores) {
+    var nameSpan = document.createElement("span");
+    var scoreSpan = document.createElement("span");
+    var item = document.createElement("li");
+    nameSpan.innerHTML = i.user_name + ": ";
+    scoreSpan.innerHTML = i.score;
+    item.appendChild(nameSpan)
+    item.appendChild(scoreSpan)
+    list.appendChild(item);
+  }
+  document.getElementById("scoreModal").appendChild(list);
+  //document.getElementById("modal").replaceChild(list)
+  document.getElementById("modal").style.display = "none";
+  document.getElementById("scoreModal").style.display = "flex";
+}
+
+
 
 
 function gameStart(render_rate) {
@@ -43,9 +130,9 @@ function gameStart(render_rate) {
 }
 
 // Listen for keystrokes and move head one tile in required direction
-function controls(e) {
-  switch (e.keyCode) {
-    case 65:
+function controls(dir) {
+  switch (dir) {
+    case "left":
       if (nextX != 1) {
         nextX = -1;
         nextY = 0;
@@ -53,7 +140,7 @@ function controls(e) {
       }
       break;
 
-    case 87: // up
+    case "up": // up
       if (nextY != 1) {
         nextX = 0;
         nextY = -1;
@@ -61,7 +148,7 @@ function controls(e) {
       }
       break;
 
-    case 68: // right
+    case "right": // right
       if (nextX != -1) {
         nextX = 1;
         nextY = 0;
@@ -69,7 +156,7 @@ function controls(e) {
       }
       break;
 
-    case 83: //down
+    case "down": //down
     if (nextY != -1) {
       nextX = 0;
       nextY = 1;
@@ -79,13 +166,41 @@ function controls(e) {
   }
 }
 
+
+
+
+
 // Stop the game if a game over condition is reached
 function gameOver(score) {
   clearInterval(setInterval_ID);
   ctx.font = "30px Monofett";
   ctx.fillStyle = "red";
   ctx.textAlign = "center";
-  ctx.fillText("GAME OVER",300, 300 )
+  ctx.fillText("GAME OVER",300, 300)
+
+  //let form = document.createElement("form");
+  //form.name="scoreForm";
+  //form.id = "scoreForm"
+  //let nameInput = document.createElement("input")
+  //nameInput.type = "text";
+  //nameInput.name="username";
+  //let submitButton = document.createElement("button")
+  //submitButton.innerHTML = "Submit score"
+  //submitButton.setAttribute("onclick", "postScore()")
+  //form.appendChild(nameInput)
+  //form.appendChild(submitButton)
+  //document.getElementById("modal").appendChild(form)
+
+
+
+  
+  document.getElementById("modal").style.display = "flex";
+
+
+
+
+
+
 }
 
 function randomIntRange(min,max) {

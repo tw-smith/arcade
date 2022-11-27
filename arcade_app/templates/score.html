@@ -1,0 +1,13 @@
+
+    <p>Enter your name</p>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag () }}
+        <p>
+            {{ form.username.label }}
+            {{ form.username }}
+        </p>
+        <br>
+        <p>
+            {{ form.submit() }}
+        </p>
+    </form>

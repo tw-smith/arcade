@@ -12,6 +12,10 @@
     align-items: center;
 }
 
+.myCanvas {
+    width: 100vw;
+}
+
 .modal__scoreList {
     color: red;
     list-style: none;
@@ -24,6 +28,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    height: 100vh;
 }
 
 .page__gameArea {
@@ -44,7 +49,7 @@
 
 .controlButtons__button {
     margin: 0.2rem;
-    width: 12.5vw;
+    width: 25vw;
     font-weight: bold;
     font-size: 2rem;
 }

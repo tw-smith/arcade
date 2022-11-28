@@ -194,7 +194,7 @@ function displayHighScores(highScores) {
 
 // Listen for keystrokes and move head one tile in required direction
 function controls(dir) {
-  navigator.vibrate(100);
+  
   switch (dir) {
     case "left":
       if (nextX != 1) {
@@ -228,6 +228,7 @@ function controls(dir) {
     }
     break;
   }
+  window.navigator.vibrate(100);
 }
 
 
@@ -308,7 +309,7 @@ function render() {
     snake.segments.push(snake.segments[snake.segments.length]);
     score ++;
     render_rate += rampSpeed;
-    navigator.vibrate(200);
+    window.navigator.vibrate(200);
   }
 
   // detect if snake has hit edge

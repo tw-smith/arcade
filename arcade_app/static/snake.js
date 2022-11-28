@@ -1,7 +1,9 @@
 let canvas, ctx;
 
 // render refresh rate per second
-const render_rate = 5;
+let render_rate = 5;
+const rampSpeed = 1;
+let gameOverFlag = false;
 
 // Set game world colours and item sizes
 const BACKGROUND_COLOUR = "black";
@@ -17,6 +19,7 @@ let nextX = 1;
 let nextY = 0;
 let score = 0;
 let setInterval_ID;
+let timeoutID;
 let food = {
   x: randomIntRange(2,28),
   y: randomIntRange(2,28),
@@ -26,8 +29,14 @@ let snake = {
 };
 let dir = ""
 
+// Get DOM elements
+let startModal = document.getElementById("startModal");
+let scoreModal = document.getElementById("scoreModal");
+
+
 // Initialise canvas
 function init () {
+  startModal.style.display = "none";
   canvas = document.querySelector('.myCanvas');
   width = canvas.width = 600;
   height = canvas.height = 600;
@@ -47,8 +56,39 @@ function init () {
   document.getElementById("rightButton").addEventListener("click", function() {
     controls("right")
   });
-  setInterval_ID = gameStart(render_rate);
+  //setInterval_ID = gameStart(render_rate);
+  gameStart();
 }
+
+
+function gameStart () {
+  function loop() {
+    render();
+    if(gameOverFlag) {
+      clearTimeout(timeoutID)
+    } else {
+      timeoutID = setTimeout(loop, 1000/render_rate)
+    }
+  }
+  loop();  
+}
+
+
+
+
+
+//function gameStart(render_rate) {
+  //return setInterval(render,1000/render_rate);
+ // var renderSpeed = function() {
+  //  if (score%2 == 0) {
+   //   render_rate += 5
+    //}
+    //setTimeout(render, 1000/render_rate)
+  //}
+  //setTimeout(renderSpeed, 1000/render_rate)
+//}
+
+
 
 function parseKeyInput(e) {
     switch (e.keyCode){
@@ -103,7 +143,32 @@ async function getHighScores() {
   }
 }
 
+
+const removeChildElements = (parent) => {
+  while (parent.lastChild) {
+    parent.removeChild(parent.lastChild);
+  }
+};
+
+function backButtonFunc() {
+  removeChildElements(scoreModal)
+  
+  scoreModal.style.display = "none";
+  startModal.style.display = "flex";
+}
+
+
 function displayHighScores(highScores) {
+  if (window.getComputedStyle(startModal).display != "none") {
+    startModal.style.display = "none"
+  }
+
+  const backButton = document.createElement("button");
+
+
+  backButton.innerHTML = "Back"
+  backButton.setAttribute("onclick", "backButtonFunc()");
+
   var list = document.createElement("ul");
   list.className = "modal__scoreList"
   for (let i of highScores) {
@@ -116,21 +181,20 @@ function displayHighScores(highScores) {
     item.appendChild(scoreSpan)
     list.appendChild(item);
   }
-  document.getElementById("scoreModal").appendChild(list);
-  //document.getElementById("modal").replaceChild(list)
+  scoreModal.appendChild(list);
+  scoreModal.appendChild(backButton);
   document.getElementById("modal").style.display = "none";
-  document.getElementById("scoreModal").style.display = "flex";
+  scoreModal.style.display = "flex";
 }
 
 
 
 
-function gameStart(render_rate) {
-  return setInterval(render,1000/render_rate);
-}
+
 
 // Listen for keystrokes and move head one tile in required direction
 function controls(dir) {
+  navigator.vibrate(100);
   switch (dir) {
     case "left":
       if (nextX != 1) {
@@ -172,24 +236,14 @@ function controls(dir) {
 
 // Stop the game if a game over condition is reached
 function gameOver(score) {
-  clearInterval(setInterval_ID);
+  gameOverFlag = true;
+  clearTimeout(timeoutID)
+  //clearInterval(setInterval_ID);
   ctx.font = "30px Monofett";
   ctx.fillStyle = "red";
   ctx.textAlign = "center";
   ctx.fillText("GAME OVER",300, 300)
 
-  //let form = document.createElement("form");
-  //form.name="scoreForm";
-  //form.id = "scoreForm"
-  //let nameInput = document.createElement("input")
-  //nameInput.type = "text";
-  //nameInput.name="username";
-  //let submitButton = document.createElement("button")
-  //submitButton.innerHTML = "Submit score"
-  //submitButton.setAttribute("onclick", "postScore()")
-  //form.appendChild(nameInput)
-  //form.appendChild(submitButton)
-  //document.getElementById("modal").appendChild(form)
 
 
 
@@ -253,6 +307,8 @@ function render() {
     food.y = randomIntRange(2,28);
     snake.segments.push(snake.segments[snake.segments.length]);
     score ++;
+    render_rate += rampSpeed;
+    navigator.vibrate(200);
   }
 
   // detect if snake has hit edge
@@ -266,4 +322,5 @@ function render() {
 
 
 
-document.addEventListener('DOMContentLoaded', init)
+//document.addEventListener('DOMContentLoaded', init)
+document.addEventListener('DOMContentLoaded', () => startModal.style.display = "flex");

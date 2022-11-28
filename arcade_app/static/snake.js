@@ -228,7 +228,7 @@ function controls(dir) {
     }
     break;
   }
-  window.navigator.vibrate(100);
+  //window.navigator.vibrate(100);
 }
 
 
@@ -309,7 +309,7 @@ function render() {
     snake.segments.push(snake.segments[snake.segments.length]);
     score ++;
     render_rate += rampSpeed;
-    window.navigator.vibrate(200);
+    //window.navigator.vibrate(200);
   }
 
   // detect if snake has hit edge

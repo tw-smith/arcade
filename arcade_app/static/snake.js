@@ -1,4 +1,8 @@
 let canvas, ctx;
+let f = new FontFace('press start', 'url(assets/Press_Start_2P/PressStart2P-Regular.ttf)');
+f.load().then(function(font){
+  document.fonts.add(font);
+})
 
 // render refresh rate per second
 let render_rate = 5;
@@ -12,6 +16,7 @@ const SNAKE_HEAD_COLOUR = "green";
 const FOOD_COLOUR = "blue";
 const FOOD_SIZE = 10;
 const SNAKE_SIZE = TILE_SIZE = 20;
+const EMOJI_THRESHOLDS = [0, 12, 16, 20, 24];
 
 // Set initial values
 const STARTING_POSITIONS = [{x:10,y:10}, {x:9,y:10}, {x:8,y:10}];
@@ -32,6 +37,8 @@ let dir = ""
 // Get DOM elements
 let startModal = document.getElementById("startModal");
 let scoreModal = document.getElementById("scoreModal");
+let scoreHeader = document.getElementById("scoreHeader");
+let scoreEmoji = document.getElementById("scoreEmoji");
 
 
 // Initialise canvas
@@ -164,6 +171,7 @@ function displayHighScores(highScores) {
   }
 
   const backButton = document.createElement("button");
+  backButton.className = "menuButton"
 
 
   backButton.innerHTML = "Back"
@@ -268,10 +276,12 @@ function render() {
   ctx.fillRect(0, 0, width, height);
 
   // write score
-  ctx.font = "30px Monofett";
-  ctx.textAlign = "center";
-  ctx.fillStyle = "white";
-  ctx.fillText(`Score: ${score}`,300, 30 )
+  scoreHeader.innerHTML = "Score: " + score;
+  //ctx.font = "30px press start"
+  //ctx.textAlign = "center";
+  //ctx.fillStyle = "white";
+  //ctx.fillText(`Score: ${score}`,300, 30 )
+
 
   // move snake
   snake.segments.pop() //remove tail - // TODO: check if this prevents a collision detection with final tail segment
@@ -309,6 +319,15 @@ function render() {
     snake.segments.push(snake.segments[snake.segments.length]);
     score ++;
     render_rate += rampSpeed;
+    if (score >= EMOJI_THRESHOLDS[4]) {
+      scoreEmoji.innerHTML = "&#129327";
+    } else if (score >= EMOJI_THRESHOLDS[3]) {
+      scoreEmoji.innerHTML = "&#129397";
+    } else if (score >= EMOJI_THRESHOLDS[2]) {
+      scoreEmoji.innerHTML = "&#128560"
+    } else if (score >= EMOJI_THRESHOLDS[1]) {
+      scoreEmoji.innerHTML = "&#128556";
+    }
     //window.navigator.vibrate(200);
   }
 

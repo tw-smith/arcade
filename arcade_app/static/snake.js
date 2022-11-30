@@ -4,6 +4,10 @@ f.load().then(function(font){
   document.fonts.add(font);
 })
 
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', '${vh}px');
+
+
 // render refresh rate per second
 let render_rate = 5;
 const rampSpeed = 1;

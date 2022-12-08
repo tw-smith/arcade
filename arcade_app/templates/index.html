@@ -4,9 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Canvas</title>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Monofett&display=swap');
-    </style> 
     <link href="static/style.css" rel="stylesheet">
     <script src="static/high_score.js" defer></script>
     <script src="static/snake.js" defer></script>
@@ -15,21 +12,22 @@
   </head>
   <body class="page">
     <div class="page__gameArea">
-      <div id="startModal" class="modal">
+      <div id="modal" class="modal">
         <h2 class="startModal__title gradient">Snake</h2>
         <h2 class="startModal__title">&#128013</h2>
-        <button class="menuButton" type="button" onclick="init()">Start</button>
-        <button class="menuButton" type="button" onclick="getHighScores()">High Scores</button>
+        <button class="menuButton" type="button" onclick="startGame()">Start</button>
+        <button class="menuButton" type="button" onclick="gameModal.update('highScores')">High Scores</button>
       </div>
-      <div id="modal" class="modal">
+     <!--  <div id="modal" class="modal">
         <h2 class="gameOver__title">Game Over!</h2>
         <form name="scoreForm" class="scoreForm">
           <input name="username" type="text">
           <button class="menuButton" type="button" onclick="postScore()">Submit score</button>
+          <button class="menuButton" type="button" onclick="init()">Play again</button>
         </form>
       </div>
       <div id="scoreModal" class="modal">
-      </div>
+      </div> -->
         <h2 id="scoreHeader" class="scoreHeader">Score: 0</h2>
         <h2 id="scoreEmoji" class="scoreEmoji">place</h2>
         <canvas class="myCanvas"></canvas>

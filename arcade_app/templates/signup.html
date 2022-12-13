@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Signup</title>
+        <script>
+            async function postSignUp() {
+                const form = document.forms.signUp;
+                const formData = {username: form.username.value, 
+                                  password: form.password.value,
+                                  email: form.email.value
+                                };
+
+                let response = await fetch("/signup", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(formData),
+                })
+                console.log(response)
+            }
+        </script>
+
+    </head>
+    <body>
+        <form name="signUp">
+            <input name="username" type="text" placeholder="name">
+            <input name="email" type="email" placeholder="email">
+            <input name="password" type="password" placeholder="password">
+            <button type="button" onclick="postSignUp()">Sign up!</button>
+        </form>
+    </body>
+</html>

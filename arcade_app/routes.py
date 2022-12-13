@@ -1,9 +1,13 @@
 from flask import render_template, request, jsonify, Response
 from arcade_app import app, db
-from arcade_app.models import Score, User
+from arcade_app.models import Score, User, MPUser
 from arcade_app.forms import HighScoreForm
 import json
+import jwt
+from werkzeug.security import generate_password_hash, check_password_hash
+import uuid
 
+from functools import wraps
 
 
 @app.route('/score', methods=['GET','POST'])
@@ -44,3 +48,72 @@ def score_handler():
 @app.route('/index', methods=['GET'])
 def index():
     return render_template('index.html')
+
+
+# AUTH SECTION
+
+# custom decorator for verifying token
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = None
+
+        if 'x-access-token' in request.headers:
+            token = request.headers['x-access-token']
+        
+        if not token:
+            return jsonify({'message': 'Token is missing!'}), 401
+
+        try:
+            data = jwt.decode(token, app.config['SECRET_KEY'])
+            current_user = db.session.execute(db.select(MPUser).filter_by(user_name = data['user_name']).first())
+
+        except:
+            return jsonify({'Message': 'Token is invalid!'}), 401
+        
+        return f(current_user, *args, **kwargs)
+    return decorated
+
+        
+
+
+
+@app.route('/users', methods=['GET'])
+@token_required
+def get_all_users(current_user):
+    users = db.session.execute(db.select(User)).scalars().all()
+    print(users)
+
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'GET':
+        return render_template('signup.html')
+    elif request.method == 'POST':
+        data = request.get_json()
+        username = data['username']
+        email = data['email']
+        password = data['password']
+
+        username_check = db.session.execute(db.select(MPUser).filter_by(username = username)).first()
+        email_check = db.session.execute(db.select(MPUser).filter_by(email = email)).first()
+        if username_check or email_check:
+            print('username or email already exists')
+            return('username or email already exits!')
+        else:
+            user = MPUser(
+                username = username,
+                email = email,
+                public_id = str(uuid.uuid4()),
+                password_hash = generate_password_hash(password)
+            )
+            db.session.add(user)
+            db.session.commit()
+            print('sign up ok')
+            return('signed up sucessefully!')
+            
+
+
+
+
+

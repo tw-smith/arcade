@@ -1,4 +1,4 @@
-from flask import render_template, request, jsonify, Response
+from flask import render_template, request, jsonify, Response, make_response
 from arcade_app import app, db
 from arcade_app.models import Score, User, MPUser
 from arcade_app.forms import HighScoreForm
@@ -51,6 +51,13 @@ def index():
 
 
 # AUTH SECTION
+   # "username": "Test User"
+   # "email": "test@tw-smith.me"
+   # "password": "testpassword"
+
+
+
+
 
 # custom decorator for verifying token
 def token_required(f):
@@ -58,18 +65,22 @@ def token_required(f):
     def decorated(*args, **kwargs):
         token = None
 
-        if 'x-access-token' in request.headers:
-            token = request.headers['x-access-token']
+        if 'Authorization' in request.headers:
+            token = request.headers['Authorization']
         
         if not token:
-            return jsonify({'message': 'Token is missing!'}), 401
+            return make_response('Missing token!',
+                                  401,
+                                  {'WWW-Authentication': 'Bearer realm="Valid access token required"'})
 
         try:
-            data = jwt.decode(token, app.config['SECRET_KEY'])
+            data = jwt.decode(token, key=app.config['SECRET_KEY'], algorithms='HSA256')
             current_user = db.session.execute(db.select(MPUser).filter_by(user_name = data['user_name']).first())
 
         except:
-            return jsonify({'Message': 'Token is invalid!'}), 401
+            return make_response('Token is invalid!',
+                                 401,
+                                 {'WWW-Authentication': 'Bearer realm="Valid access token required"'})
         
         return f(current_user, *args, **kwargs)
     return decorated
@@ -85,21 +96,77 @@ def get_all_users(current_user):
     print(users)
 
 
+@app.route('/login', methods=['GET','POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    elif request.method == 'POST':
+        # get form values from JSON
+        data = request.get_json()
+        username = data.get('username')
+        password = data.get('password')
+
+        # check that form has data we need
+        if not username or not password:
+            #return jsonify({'Message': 'No username or password'}), 401
+            return make_response('No username or password',
+                                401,
+                                {'WWW-Authentication':'Basic realm="No username/password supplied"'})
+
+        # hit DB for user
+        user = db.session.execute(db.select(MPUser).filter_by(username=username)).first()
+
+        # This is messy, there must be a way to return user as a useful Python object rather than this SQLalchemy thing
+        for row in user:
+            pw = row.password_hash
+            public_id = row.public_id
+
+        
+        # return 401 if user does not exist
+        if not user:
+            return make_response('No such user exists',
+                                  401,
+                                  {'WWW-Authenticate' : 'Basic realm="User does not exist"'})
+
+        # check password hash
+        if check_password_hash(pw, password):
+            jwt_token = jwt.encode({
+                'public_id': public_id,
+                # TODO put token expiry time in
+            }, app.config['SECRET_KEY'])
+            return make_response(jsonify({'token': jwt_token}), 201)
+
+
+
+
+        
+
+
+
+    
+
+
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
         return render_template('signup.html')
     elif request.method == 'POST':
+
+        # Get form values from json
         data = request.get_json()
         username = data['username']
         email = data['email']
         password = data['password']
 
+        # Check if username or email already exists in DB
         username_check = db.session.execute(db.select(MPUser).filter_by(username = username)).first()
         email_check = db.session.execute(db.select(MPUser).filter_by(email = email)).first()
+        
+        # If username or email already exists then throw error, otherwise create user
         if username_check or email_check:
             print('username or email already exists')
-            return('username or email already exits!')
+            return make_response('User already exists!', 409)
         else:
             user = MPUser(
                 username = username,
@@ -110,7 +177,7 @@ def signup():
             db.session.add(user)
             db.session.commit()
             print('sign up ok')
-            return('signed up sucessefully!')
+            return make_response('User registration sucessfull', 201)
             
 
 

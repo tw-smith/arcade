@@ -9,6 +9,9 @@ import uuid
 
 from functools import wraps
 
+import string
+import random
+
 
 @app.route('/score', methods=['GET','POST'])
 def score_handler():
@@ -56,44 +59,64 @@ def index():
    # "password": "testpassword"
 
 
-
-
-
 # custom decorator for verifying token
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         token = None
+        userFingerprint = None
+        print(request.headers)
 
         if 'Authorization' in request.headers:
-            token = request.headers['Authorization']
-        
+            try:
+                token = request.headers.get('Authorization')
+                token = json.loads(token)
+                token_data = jwt.decode(token['token'], key=app.config['SECRET_KEY'], algorithms='HS256')
+                userFingerprintHash = token_data['userFingerprint']
+            except:
+                return make_response('Token is invalid!',
+                                     401,
+                                     {'WWW-Authentication': 'Bearer realm="Valid access token requried'})
         if not token:
             return make_response('Missing token!',
                                   401,
-                                  {'WWW-Authentication': 'Bearer realm="Valid access token required"'})
+                                  {'WWW-Authentication': 'Bearer realm="Access token required"'})
+
+        if 'Cookie' in request.headers:
+            userFingerprint = request.cookies.get('secure-fgp')
+            if check_password_hash(userFingerprintHash, userFingerprint):
+                print("cookie hash check passed")
+
+                print("userfingerprint: " + userFingerprint)
+            else:
+                return make_response('Invalid fingerprint',
+                                     401,
+                                    {'WWW-Authentication': 'Bearer realm="Valid fingerprint required'})
+        if not userFingerprint:
+            return make_response('No fingerprint',
+                                  401,
+                                  {'WWW-Authentication': 'Bearer realm="Fingerprint required'})
 
         try:
-            data = jwt.decode(token, key=app.config['SECRET_KEY'], algorithms='HSA256')
-            current_user = db.session.execute(db.select(MPUser).filter_by(user_name = data['user_name']).first())
+            print(token_data['public_id'])
+            current_user = db.session.execute(db.select(MPUser).filter_by(public_id = token_data['public_id'])).first()
+            print(current_user)
 
         except:
-            return make_response('Token is invalid!',
-                                 401,
-                                 {'WWW-Authentication': 'Bearer realm="Valid access token required"'})
+            return make_response('DB Error!',
+                                 500)
         
         return f(current_user, *args, **kwargs)
     return decorated
 
         
 
-
-
 @app.route('/users', methods=['GET'])
 @token_required
 def get_all_users(current_user):
     users = db.session.execute(db.select(User)).scalars().all()
     print(users)
+    return make_response('OK', 201)
 
 
 @app.route('/login', methods=['GET','POST'])
@@ -116,25 +139,44 @@ def login():
         # hit DB for user
         user = db.session.execute(db.select(MPUser).filter_by(username=username)).first()
 
-        # This is messy, there must be a way to return user as a useful Python object rather than this SQLalchemy thing
+        # TODO This is messy, there must be a way to return user as a useful Python object rather than this SQLalchemy thing
         for row in user:
             pw = row.password_hash
             public_id = row.public_id
 
-        
         # return 401 if user does not exist
         if not user:
             return make_response('No such user exists',
                                   401,
                                   {'WWW-Authenticate' : 'Basic realm="User does not exist"'})
 
-        # check password hash
+        # check password hash and create JWT token
         if check_password_hash(pw, password):
+
+            # TODO is the fingerprint ok as random string or does it need to be random hex?
+            # Generate user fingerprint
+            userFingerprint = ''.join(random.choices(string.ascii_letters, k = 50))
+            fingerPrintCookie = 'secure-fgp=' + userFingerprint + "; SameSite=Strict; HttpOnly; Secure"
+
+            # Create hash of fingerprint
+            #TODO is this hashing algo sufficient
+            userFingerprintHash = generate_password_hash(userFingerprint,'SHA256')
+
+            # Encode token
+            # TODO implement the rest of the items required in the JWT spec
+            # TODO should we be using a different crypto algo?
             jwt_token = jwt.encode({
                 'public_id': public_id,
+                'userFingerprint': userFingerprintHash,
+                'alg': 'HS256'
                 # TODO put token expiry time in
             }, app.config['SECRET_KEY'])
-            return make_response(jsonify({'token': jwt_token}), 201)
+
+
+            return make_response(jsonify({'token': jwt_token}),
+                                 201,
+                                 {'Set-Cookie': fingerPrintCookie})
+
 
 
 

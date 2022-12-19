@@ -63,9 +63,8 @@ def token_required(f):
 
         if 'Authorization' in request.headers:
             token = request.headers.get('Authorization')
-            token = json.loads(token)
             try:
-                token_data = jwt.decode(token['token'],
+                token_data = jwt.decode(token,
                                         options={'require': ['exp', 'iss']},
                                         key=app.config['SECRET_KEY'],
                                         algorithms='HS256',

@@ -169,7 +169,6 @@ def login():
                 userFingerprint, 'SHA256')
 
             # Encode token
-            # TODO implement the rest of the items required in the JWT spec
             # TODO should we be using a different crypto algo?
             jwt_token = jwt.encode({
                 'iss': 'https://arcade.tw-smith.me',

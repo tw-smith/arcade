@@ -4,30 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login</title>
-        <script>
-            async function postLogIn() {
-                const form = document.forms.logIn;
-                const formData = {username: form.username.value, 
-                                  password: form.password.value,
-                                };
-
-                let response = await fetch("/login", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(formData),
-                })
-                console.log(response)
-            }
-        </script>
+        <script src="static/built/auth.js" defer></script>
 
     </head>
     <body>
-        <form name="logIn">
-            <input name="username" type="text" placeholder="name">
-            <input name="password" type="password" placeholder="password">
-            <button type="button" onclick="postLogIn()">Log in!</button>
+        <form name="login">
+            <input name="username" type="text" placeholder="name" required>
+            <input name="password" type="password" placeholder="password" required>
+            <button type="button" onclick="userlogin()">Log in!</button>
         </form>
     </body>
 </html>

@@ -1,0 +1,46 @@
+@font-face {
+    font-family: "retronoid";
+    src: url('assets/RetronoidItalic-ln9V.ttf') format('truetype');
+}
+@font-face {
+    font-family: "press start";
+    src: url('assets/Press_Start_2P/PressStart2P-Regular.ttf') format('truetype');
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: black;
+}
+
+.maintitle {
+    font-family: "retronoid";
+    font-size: 4rem;
+    padding: 1rem;
+}
+
+.gradient {
+    background-image: linear-gradient(135deg, rgba(249,64,2,1) 0%, rgba(167,0,0,1) 38%, rgba(241,255,0,1) 85%); 
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.subtitle {
+    font-family: "press start";
+    color: white;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    align-items: center;
+}
+
+.form__item {
+    margin: 0.5rem;
+    font-family: "press start";
+}

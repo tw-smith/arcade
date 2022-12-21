@@ -5,15 +5,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login</title>
         <script src="static/built/auth.js" defer></script>
-
+        <link href="static/auth_style.css" rel="stylesheet">
     </head>
-    <body>
-        <form name="login">
-            <input name="username" type="text" placeholder="name" required>
-            <input name="password" type="password" placeholder="password" required>
-            <button type="button" onclick="userlogin()">Log in!</button>
+    <body class="container">
+        <h2 class="maintitle gradient">Snake</h2>
+        <h2 class="maintitle">&#128013</h2>
+        <h3 class="subtitle">Log In</h3>
+        <form class="form" name="login">
+            <input class="form__item" name="username" type="text" placeholder="Username" required>
+            <input class="form__item" name="password" type="password" placeholder="Password" required>
+            <button class="form__item" type="button" onclick="userlogin()">Log in!</button>
         </form>
-
+        
+        <!-- TODO remove this test button -->
         <form name="getusers">
             <button type="button" onclick="getUsers()">Get Users</button>
         </form>

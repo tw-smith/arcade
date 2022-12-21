@@ -5,14 +5,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Signup</title>
         <script src="static/built/auth.js" defer></script>
+        <link href="static/auth_style.css" rel="stylesheet">
     </head>
-    <body>
-        <form name="signUp">
-            <input name="username" type="text" placeholder="name" required>
-            <input name="email" type="email" placeholder="email" required>
-            <input name="password" type="password" placeholder="password" required>
-            <input name="passwordRepeat" type="password" placeholder="repeat password" required>
-            <button type="button" onclick="signup()">Sign up!</button>
+    <body class="container">
+        <h2 class="maintitle gradient">Snake</h2>
+        <h2 class="maintitle">&#128013</h2>
+        <h3 class="subtitle">Sign Up</h3>
+        <form class="form" name="signUp">
+            <input class="form__item" name="username" type="text" placeholder="Username" required>
+            <input class="form__item" name="email" type="email" placeholder="Email" required>
+            <input class="form__item" name="password" type="password" placeholder="Password" required>
+            <input class="form__item" name="passwordRepeat" type="password" placeholder="Repeat password" required>
+            <button class="form__item" type="button" onclick="signup()">Sign up!</button>
         </form>
     </body>
 </html>

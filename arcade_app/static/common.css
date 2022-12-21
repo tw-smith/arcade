@@ -7,18 +7,42 @@
     src: url('assets/Press_Start_2P/PressStart2P-Regular.ttf') format('truetype');
 }
 
+html {
+    overscroll-behavior: none;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+}
+
+.text {
+    font-family: "press start";
+    color: white;
+    font-size: 1rem;
+}
+
+.text--red {
+    color: red;
+}
+
+.text--big {
+    font-size: 4rem;
+    padding: 1rem;
+}
+
+.text--title {
+    font-family: retronoid;
+}
+
 
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     background-color: black;
-}
-
-.maintitle {
-    font-family: "retronoid";
-    font-size: 4rem;
-    padding: 1rem;
+    height: 100vh;
 }
 
 .gradient {
@@ -28,15 +52,10 @@
     color: transparent;
 }
 
-.subtitle {
-    font-family: "press start";
-    color: white;
-}
-
 .form {
     display: flex;
     flex-direction: column;
-    width: 75%;
+    justify-content: center;
     align-items: center;
 }
 

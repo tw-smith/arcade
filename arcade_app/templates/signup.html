@@ -13,10 +13,14 @@
         <h2 class="text--big">&#128013</h2>
         <h3 class="text">Sign Up</h3>
         <form class="form" name="signUp">
-            <input class="form__item" name="username" type="text" placeholder="Username" required>
-            <input class="form__item" name="email" type="email" placeholder="Email" required>
-            <input class="form__item" name="password" type="password" placeholder="Password" required>
-            <input class="form__item" name="passwordRepeat" type="password" placeholder="Repeat password" required>
+            <input class="form__item" name="username" type="text" placeholder="Username" required />
+            <p id="usernameError" class="text__formerror">Please enter a username</p>
+            <input class="form__item" name="email" type="email" placeholder="Email" required />
+            <p id="emailError" class="text_formerror">Please enter a valid email address</p>
+            <input class="form__item" name="password" type="password" placeholder="Password (8 chars)" required minlength="8">
+            <p id="weakPasswordError" class="text__formerror">Weak password! 8 characters minimum</p>
+            <input class="form__item" name="passwordRepeat" type="password" placeholder="Repeat password" required minlength="8">
+            <p id="matchPasswordError" class="text__formerror">Passwords don't match!</p>
             <button class="form__item" type="button" onclick="signup()">Sign up!</button>
         </form>
     </body>

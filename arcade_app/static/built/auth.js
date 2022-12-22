@@ -9,6 +9,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 let token;
+function validateForm(username, email, password, passwordRepeat) {
+    let formValid = true;
+    if (password != passwordRepeat) {
+        document.getElementById("matchPasswordError").style.opacity = "1";
+        formValid = false;
+    }
+    if (password.length < 8) {
+        document.getElementById("weakPasswordError").style.opacity = "1";
+        formValid = false;
+    }
+    if (username == "") {
+        document.getElementById("usernameError").style.opacity = "1";
+        formValid = false;
+    }
+    return formValid;
+}
 function signup() {
     return __awaiter(this, void 0, void 0, function* () {
         // username, email, password
@@ -18,7 +34,7 @@ function signup() {
         const email = form.email.value;
         const password = form.password.value;
         const passwordRepeat = form.passwordRepeat.value;
-        if (password === passwordRepeat) {
+        if (validateForm(username, email, password, passwordRepeat)) {
             const formData = { username: username,
                 email: email,
                 password: password };
@@ -29,9 +45,6 @@ function signup() {
                 },
                 body: JSON.stringify(formData),
             });
-        }
-        else {
-            console.log("passwords don't match");
         }
     });
 }

@@ -2,16 +2,44 @@
 
 let token: string
 
+
+function validateForm(username, email, password, passwordRepeat) {
+    let formValid = true;
+
+    if (password != passwordRepeat) {
+        document.getElementById("matchPasswordError").style.opacity = "1";
+        formValid = false;
+    }
+
+    if (password.length < 8) {
+        document.getElementById("weakPasswordError").style.opacity = "1";
+        formValid = false;
+    }
+
+    if (username == "") {
+        document.getElementById("usernameError").style.opacity = "1";
+        formValid = false;
+    }
+
+    if (email == "") {
+        document.getElementById("emailError").style.opacity = "1";
+        formValid = false;
+    }
+    return formValid
+}
+
+
+
+
+
 async function signup() {
-    // username, email, password
-    // TODO validation
     const form = document.forms['signUp'];
     const username: string = form.username.value;
     const email: string = form.email.value;
     const password: string = form.password.value;
     const passwordRepeat: string = form.passwordRepeat.value;
 
-    if (password === passwordRepeat) {
+    if (validateForm(username, email, password, passwordRepeat)) {
         const formData = {username: username,
                           email: email,
                           password: password};
@@ -23,8 +51,6 @@ async function signup() {
             },
             body: JSON.stringify(formData),
         })
-    } else {
-        console.log("passwords don't match")
     }
 }
 

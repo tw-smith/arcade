@@ -95,6 +95,7 @@ class Modal {
         nameInput.name = "username";
         nameInput.type = "text";
         nameInput.className = "form__item";
+        nameInput.required;
         postScoreButton.className = "form__item";
         postScoreButton.type = "button";
         postScoreButton.onclick = postScore;

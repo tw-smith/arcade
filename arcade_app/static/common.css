@@ -28,11 +28,20 @@ html {
 
 .text--big {
     font-size: 4rem;
-    padding: 1rem;
+    margin: 2rem;
 }
 
 .text--title {
     font-family: retronoid;
+    padding: 0 1rem 0 1rem;
+}
+
+.text__formerror {
+    color: red;
+    font-size: 0.5rem;
+    font-family: "press start";
+    margin: 0;
+    opacity: 0;
 }
 
 
@@ -40,7 +49,7 @@ html {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     background-color: black;
     height: 100vh;
 }
@@ -61,5 +70,14 @@ html {
 
 .form__item {
     margin: 0.5rem;
+    padding: 0.5rem;
     font-family: "press start";
+}
+
+.form__item:invalid {
+    box-shadow: 0 0 5px 1px red;
+}
+
+.form__item:focus:invalid {
+    box-shadow: none;
 }

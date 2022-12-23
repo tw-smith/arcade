@@ -3,32 +3,41 @@
 let token: string
 
 
-function validateForm(username, email, password, passwordRepeat) {
+function validateForm(formData, formType) {
     let formValid = true;
+    document.getElementById("usernameError").style.opacity = "0";
+    if (formType === "signup") {
+        document.getElementById("matchPasswordError").style.opacity = "0";
+        document.getElementById("weakPasswordError").style.opacity = "0";
+        document.getElementById("emailError").style.opacity = "0";
+        if (formData.password != formData.passwordRepeat) {
+            document.getElementById("matchPasswordError").style.opacity = "1";
+            formValid = false;
+        }
 
-    if (password != passwordRepeat) {
-        document.getElementById("matchPasswordError").style.opacity = "1";
-        formValid = false;
+        if (formData.password.length < 8) {
+            document.getElementById("weakPasswordError").style.opacity = "1";
+            formValid = false;
+        }
+
+        if (formData.email == "") {
+            document.getElementById("emailError").style.opacity = "1";
+            formValid = false;
+        }
     }
-
-    if (password.length < 8) {
-        document.getElementById("weakPasswordError").style.opacity = "1";
-        formValid = false;
+    if (formType === "login") {
+        document.getElementById("passwordError").style.opacity = "0";
+        if (formData.password == "") {
+            document.getElementById("passwordError").style.opacity = "1";
+            formValid = false;
+        }
     }
-
-    if (username == "") {
+    if (formData.username == "") {
         document.getElementById("usernameError").style.opacity = "1";
-        formValid = false;
-    }
-
-    if (email == "") {
-        document.getElementById("emailError").style.opacity = "1";
         formValid = false;
     }
     return formValid
 }
-
-
 
 
 
@@ -38,12 +47,9 @@ async function signup() {
     const email: string = form.email.value;
     const password: string = form.password.value;
     const passwordRepeat: string = form.passwordRepeat.value;
+    const formData = {username: username, email: email, password: password, passwordRepeat: passwordRepeat};
 
-    if (validateForm(username, email, password, passwordRepeat)) {
-        const formData = {username: username,
-                          email: email,
-                          password: password};
-
+    if (validateForm(formData, "signup")) {
         let response = await fetch("/signup", {
             method: "POST",
             headers: {
@@ -51,27 +57,46 @@ async function signup() {
             },
             body: JSON.stringify(formData),
         })
+
+        if (response.status == 201) {
+            window.location.replace("/login?signup=success")
+        } else {
+            if (response.status == 409) {
+                window.location.replace("/login?signup=exists")
+            } else {
+                //unknown HTML code
+            }
+        }
     }
 }
 
 async function userlogin() {
-    // TODO validation
     const form = document.forms['login'];
     const username: string = form.username.value;
     const password: string = form.password.value;
     const formData = {username: username,
                       password: password}
 
-    let response = await fetch("/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formData)
-    })
+    if (validateForm(formData, "login")) {
+        let response = await fetch("/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        })
 
-    token = await response.json();
-    token = token['token'];
+        if (response.redirected) {
+            console.log("redirected")
+            window.location.replace(response.url)
+        }
+    
+        if (response.ok) {
+            token = await response.json();
+            token = token['token'];
+        }
+
+    }
 }
 
 

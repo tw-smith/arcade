@@ -1,5 +1,6 @@
-from flask import render_template, request, jsonify, Response, make_response
+from flask import render_template, request, jsonify, Response, make_response, redirect, url_for
 from arcade_app import app, db
+from arcade_app.forms import LoginForm, SignupForm
 from arcade_app.models import Score, User, MPUser
 import json
 import jwt
@@ -12,6 +13,12 @@ from sqlalchemy import exc
 import string
 import random
 from datetime import datetime, timedelta
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    print("http 500")
+    return render_template('500.html'), 500
 
 
 @app.route('/score', methods=['GET', 'POST'])
@@ -51,6 +58,8 @@ def score_handler():
 @app.route('/index', methods=['GET'])
 def index():
     return render_template('index.html')
+
+
 
 
 # custom decorator for verifying token
@@ -121,13 +130,26 @@ def get_all_users(current_user):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    form = LoginForm()
     if request.method == 'GET':
-        return render_template('login.html')
+        if 'signup' in request.args:
+            if request.args['signup'] == 'success':
+                return render_template('login.html', signup='success', form=form)
+            if request.args['signup'] == 'exists':
+                return render_template('login.html', signup='exists', form=form)
+        return render_template('login.html', form=form)
     elif request.method == 'POST':
+        if not form.validate_on_submit():
+            return render_template('/login.html', form=form)
+        #if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        print(username)
+        print(password)
         # get form values from JSON
-        data = request.get_json()
-        username = data.get('username')
-        password = data.get('password')
+       # data = request.get_json()
+        #username = data.get('username')
+        #password = data.get('password')
 
         # check that form has data we need
         if not username or not password:
@@ -139,6 +161,11 @@ def login():
         # hit DB for user
         user = db.session.execute(
             db.select(MPUser).filter_by(username=username)).first()
+
+        if not user:
+            return render_template('500.html'), 500
+
+      
 
         # TODO This is messy, there must be a way to return user as a
         # useful Python object rather than this SQLalchemy thing
@@ -189,15 +216,23 @@ def login():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    form=SignupForm()
     if request.method == 'GET':
-        return render_template('signup.html')
+        return render_template('signup.html', form=form)
     elif request.method == 'POST':
+        if not form.validate_on_submit():
+            return render_template('/signup.html', form=form)
+        #if form.validate_on_submit():
+        username = form.username.data
+        email = form.email.data
+        password = form.password.data
+
 
         # Get form values from json
-        data = request.get_json()
-        username = data['username']
-        email = data['email']
-        password = data['password']
+       # data = request.get_json()
+       # username = data['username']
+       # email = data['email']
+       # password = data['password']
 
         # Check if username or email already exists in DB
         username_check = db.session.execute(
@@ -219,4 +254,5 @@ def signup():
             db.session.add(user)
             db.session.commit()
             print('sign up ok')
-            return make_response('User registration sucessfull', 201)
+            return make_response('Signup success', 201)
+            

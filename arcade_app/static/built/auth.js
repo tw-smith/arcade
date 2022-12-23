@@ -9,17 +9,34 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 let token;
-function validateForm(username, email, password, passwordRepeat) {
+function validateForm(formData, formType) {
     let formValid = true;
-    if (password != passwordRepeat) {
-        document.getElementById("matchPasswordError").style.opacity = "1";
-        formValid = false;
+    document.getElementById("usernameError").style.opacity = "0";
+    if (formType === "signup") {
+        document.getElementById("matchPasswordError").style.opacity = "0";
+        document.getElementById("weakPasswordError").style.opacity = "0";
+        document.getElementById("emailError").style.opacity = "0";
+        if (formData.password != formData.passwordRepeat) {
+            document.getElementById("matchPasswordError").style.opacity = "1";
+            formValid = false;
+        }
+        if (formData.password.length < 8) {
+            document.getElementById("weakPasswordError").style.opacity = "1";
+            formValid = false;
+        }
+        if (formData.email == "") {
+            document.getElementById("emailError").style.opacity = "1";
+            formValid = false;
+        }
     }
-    if (password.length < 8) {
-        document.getElementById("weakPasswordError").style.opacity = "1";
-        formValid = false;
+    if (formType === "login") {
+        document.getElementById("passwordError").style.opacity = "0";
+        if (formData.password == "") {
+            document.getElementById("passwordError").style.opacity = "1";
+            formValid = false;
+        }
     }
-    if (username == "") {
+    if (formData.username == "") {
         document.getElementById("usernameError").style.opacity = "1";
         formValid = false;
     }
@@ -27,17 +44,13 @@ function validateForm(username, email, password, passwordRepeat) {
 }
 function signup() {
     return __awaiter(this, void 0, void 0, function* () {
-        // username, email, password
-        // TODO validation
         const form = document.forms['signUp'];
         const username = form.username.value;
         const email = form.email.value;
         const password = form.password.value;
         const passwordRepeat = form.passwordRepeat.value;
-        if (validateForm(username, email, password, passwordRepeat)) {
-            const formData = { username: username,
-                email: email,
-                password: password };
+        const formData = { username: username, email: email, password: password, passwordRepeat: passwordRepeat };
+        if (validateForm(formData, "signup")) {
             let response = yield fetch("/signup", {
                 method: "POST",
                 headers: {
@@ -45,26 +58,44 @@ function signup() {
                 },
                 body: JSON.stringify(formData),
             });
+            if (response.status == 201) {
+                window.location.replace("/login?signup=success");
+            }
+            else {
+                if (response.status == 409) {
+                    window.location.replace("/login?signup=exists");
+                }
+                else {
+                    //unknown HTML code
+                }
+            }
         }
     });
 }
 function userlogin() {
     return __awaiter(this, void 0, void 0, function* () {
-        // TODO validation
         const form = document.forms['login'];
         const username = form.username.value;
         const password = form.password.value;
         const formData = { username: username,
             password: password };
-        let response = yield fetch("/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formData)
-        });
-        token = yield response.json();
-        token = token['token'];
+        if (validateForm(formData, "login")) {
+            let response = yield fetch("/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            });
+            if (response.redirected) {
+                console.log("redirected");
+                window.location.replace(response.url);
+            }
+            if (response.ok) {
+                token = yield response.json();
+                token = token['token'];
+            }
+        }
     });
 }
 // TODO change after implementation tested

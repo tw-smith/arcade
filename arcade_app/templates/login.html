@@ -6,16 +6,28 @@
         <title>Login</title>
         <script src="static/built/auth.js" defer></script>
         <link href="static/common.css" rel="stylesheet">
-        <link href="static/auth_style.css" rel="stylesheet">
     </head>
     <body class="container">
         <h2 class="text--big text--title gradient">Snake</h2>
         <h2 class="text--big">&#128013</h2>
+        {% if signup == "success" %}
+        <h3 class="text text--red">Signup succesfull! Please log in.</h3>
+        {% endif %}
+        {% if signup == "exists" %}
+        <h3 class="text text--red">User already exists. Please log in</h3>
+        {% endif %}
         <h3 class="text">Log In</h3>
-        <form class="form" name="login">
-            <input class="form__item" name="username" type="text" placeholder="Username" required>
-            <input class="form__item" name="password" type="password" placeholder="Password" required minlength="8">
-            <button class="form__item" type="button" onclick="userlogin()">Log in!</button>
+        <form class="form" action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            {{ form.username(class_="form__item") }}
+            {% for error in form.username.errors %}
+            <p class="text__formerror">{{ error }}</p>
+            {% endfor %}
+            {{ form.password(class_="form__item") }}
+            {% for error in form.password.errors %}
+            <p class="text__formerror">{{ error }}</p>
+            {% endfor %}
+            {{ form.submit(class_="form__item") }}
         </form>
         
         <!-- TODO remove this test button -->

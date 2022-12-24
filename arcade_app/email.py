@@ -10,7 +10,7 @@ def send_email(subject, sender, recipients, text_body, html_body):
     #mail.send(msg)
 
 def send_user_validation_email(user):
-    token = user.get_user_verification_token()
+    token, _ = user.create_token()
     send_email('Snake: Verify your email',
                 sender=app.config['MAIL_DEFAULT_SENDER'],
                 recipients=[user.email],

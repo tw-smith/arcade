@@ -1,5 +1,8 @@
-from arcade_app import db
+from arcade_app import db, app
 from werkzeug.security import generate_password_hash, check_password_hash
+import jwt
+from datetime import datetime, timedelta
+import uuid
 
 
 class User(db.Model):
@@ -29,6 +32,38 @@ class MPUser(db.Model):
     username = db.Column(db.String(50), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+
+    def __init__(self, username, email, password):
+        self.username = username
+        self.email = email
+        self.password_hash = generate_password_hash(password)
+        self.public_id = str(uuid.uuid4())
+
+
+    def get_user_verification_token(self, expires_in=600):
+        return jwt.encode({
+                'iss': 'https://arcade.tw-smith.me',
+                'iat': datetime.utcnow(),
+                'exp': datetime.utcnow() + timedelta(seconds=expires_in),
+                'public_id': self.public_id,
+            }, app.config['SECRET_KEY'],
+                headers={
+                'typ': 'JWT',
+                'alg': 'HS256'
+            }
+        )
+    
+    @staticmethod
+    def verify_user_verification_token(token):
+        try:
+            id = jwt.decode(token,
+                            options={'require': ['exp', 'iss']},
+                            key=app.config['SECRET_KEY'],
+                            algorithms='HS256',
+                            issuer='https://arcade.tw-smith.me')['public_id']
+        except:
+            return
+        return db.session.execute(db.select(MPUser).filter_by(public_id=id)).first()
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

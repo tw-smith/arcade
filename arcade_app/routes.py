@@ -2,6 +2,7 @@ from flask import render_template, request, jsonify, Response, make_response, re
 from arcade_app import app, db
 from arcade_app.forms import LoginForm, SignupForm
 from arcade_app.models import Score, User, MPUser
+from arcade_app.email import send_user_validation_email
 import json
 import jwt
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -59,8 +60,54 @@ def score_handler():
 def index():
     return render_template('index.html')
 
+def decode_token(token):
+    try:
+        return jwt.decode(token,
+                            options={'require': ['exp', 'iss']},
+                            key=app.config['SECRET_KEY'],
+                            algorithms='HS256',
+                            issuer='https://arcade.tw-smith.me')
 
+    except jwt.exceptions.ExpiredSignatureError:
+        return make_response('Token has expired', 401, {'WWW-Authentication': 'Bearer realm="Expired token"'})
+    except jwt.exceptions.InvalidAlgorithmError:
+        return make_response('Invalid algorithm', 401, {'WWW-Authentication': 'Bearer realm="Invalid algorithm'})
+    except jwt.exceptions.InvalidIssuedAtError:
+        return make_response('Invalid issuer', 401, {'WWW-Authentication': 'Bearer realm="Invalid issuer'})
+    except jwt.exceptions.InvalidSignatureError:
+        return make_response('Invalid signature', 401, {'WWW-Authentication': 'Bearer realm="Invalid signature"'})
+    except jwt.exceptions.MissingRequiredClaimError:
+        return make_response('Missing claim', 401, {'WWW-Authentication': 'Bearer realm="missing claim"'})
+    except jwt.exceptions.DecodeError:
+        return make_response('JWT decode error', 401, {'WWW-Authentication': 'Bearer realm="JWT decode error"'})
 
+def create_token(user):
+    # TODO is the fingerprint ok as random string or does it need to be random hex?
+    userFingerprint = ''.join(
+        random.choices(string.ascii_letters, k=50))
+    fingerPrintCookie = 'secure-fgp=' + userFingerprint + \
+        "; SameSite=Strict; HttpOnly; Secure"
+
+    # Create hash of fingerprint
+    # TODO is this hashing algo sufficient
+    userFingerprintHash = generate_password_hash(
+        userFingerprint, 'SHA256')
+
+    # Encode token
+    # TODO should we be using a different crypto algo?
+    token = jwt.encode({
+        'iss': 'https://arcade.tw-smith.me',
+        'iat': datetime.utcnow(),
+        'exp': datetime.utcnow() + timedelta(minutes=15),
+        'public_id': user.public_id,
+        'userFingerprint': userFingerprintHash,
+    }, app.config['SECRET_KEY'],
+        headers={
+        'typ': 'JWT',
+        'alg': 'HS256'
+        }
+    )
+    return token, fingerPrintCookie
 
 # custom decorator for verifying token
 def token_required(f):
@@ -71,28 +118,8 @@ def token_required(f):
         print(request.headers)
 
         if 'Authorization' in request.headers:
-            token = request.headers.get('Authorization')
-            try:
-                token_data = jwt.decode(token,
-                                        options={'require': ['exp', 'iss']},
-                                        key=app.config['SECRET_KEY'],
-                                        algorithms='HS256',
-                                        issuer='https://arcade.tw-smith.me')
-
-            except jwt.exceptions.ExpiredSignatureError:
-                return make_response('Token has expired', 401, {'WWW-Authentication': 'Bearer realm="Expired token"'})
-            except jwt.exceptions.InvalidAlgorithmError:
-                return make_response('Invalid algorithm', 401, {'WWW-Authentication': 'Bearer realm="Invalid algorithm'})
-            except jwt.exceptions.InvalidIssuedAtError:
-                return make_response('Invalid issuer', 401, {'WWW-Authentication': 'Bearer realm="Invalid issuer'})
-            except jwt.exceptions.InvalidSignatureError:
-                return make_response('Invalid signature', 401, {'WWW-Authentication': 'Bearer realm="Invalid signature"'})
-            except jwt.exceptions.MissingRequiredClaimError:
-                return make_response('Missing claim', 401, {'WWW-Authentication': 'Bearer realm="missing claim"'})
-            except jwt.exceptions.DecodeError:
-                return make_response('JWT decode error', 401, {'WWW-Authentication': 'Bearer realm="JWT decode error"'})
-            else:
-                userFingerprintHash = token_data['userFingerprint']
+            token = decode_token(request.headers.get('Authorization'))
+            userFingerprintHash = token['userFingerprint']
 
         if not token:
             return make_response('Missing token!', 401, {'WWW-Authentication': 'Bearer realm="Access token required"'})
@@ -108,9 +135,9 @@ def token_required(f):
             return make_response('Invalid fingerprint', 401, {'WWW-Authentication': 'Bearer realm="fingerprint error"'})
 
         try:
-            print(token_data['public_id'])
+            print(token['public_id'])
             current_user = db.session.execute(db.select(MPUser).filter_by(
-                public_id=token_data['public_id'])).first()
+                public_id=token['public_id'])).first()
             print(current_user)
 
         except exc.SQLAlchemyError:
@@ -141,19 +168,11 @@ def login():
     elif request.method == 'POST':
         if not form.validate_on_submit():
             return render_template('/login.html', form=form)
-        #if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
-        print(username)
-        print(password)
-        # get form values from JSON
-       # data = request.get_json()
-        #username = data.get('username')
-        #password = data.get('password')
 
         # check that form has data we need
         if not username or not password:
-            # return jsonify({'Message': 'No username or password'}), 401
             return make_response('No username or password',
                                  401,
                                  {'WWW-Authentication': 'Basic realm="No username/password supplied"'})
@@ -165,13 +184,11 @@ def login():
         if not user:
             return render_template('500.html'), 500
 
-      
 
         # TODO This is messy, there must be a way to return user as a
         # useful Python object rather than this SQLalchemy thing
         for row in user:
-            pw = row.password_hash
-            public_id = row.public_id
+            user = row
 
         # return 401 if user does not exist
         if not user:
@@ -179,37 +196,12 @@ def login():
                                  401,
                                  {'WWW-Authenticate': 'Basic realm="User does not exist"'})
 
-        # check password hash and create JWT token
-        if check_password_hash(pw, password):
 
-            # TODO is the fingerprint ok as random string or does it need to be random hex?
-            # Generate user fingerprint
-            userFingerprint = ''.join(
-                random.choices(string.ascii_letters, k=50))
-            fingerPrintCookie = 'secure-fgp=' + userFingerprint + \
-                "; SameSite=Strict; HttpOnly; Secure"
+        if user.check_password(password):
 
-            # Create hash of fingerprint
-            # TODO is this hashing algo sufficient
-            userFingerprintHash = generate_password_hash(
-                userFingerprint, 'SHA256')
+            token, fingerPrintCookie = create_token(user)
 
-            # Encode token
-            # TODO should we be using a different crypto algo?
-            jwt_token = jwt.encode({
-                'iss': 'https://arcade.tw-smith.me',
-                'iat': datetime.utcnow(),
-                'exp': datetime.utcnow() + timedelta(minutes=15),
-                'public_id': public_id,
-                'userFingerprint': userFingerprintHash,
-            }, app.config['SECRET_KEY'],
-                headers={
-                'typ': 'JWT',
-                'alg': 'HS256'
-            }
-            )
-
-            return make_response(jsonify({'token': jwt_token}),
+            return make_response(jsonify({'token': token}),
                                  201,
                                  {'Set-Cookie': fingerPrintCookie})
 
@@ -222,17 +214,9 @@ def signup():
     elif request.method == 'POST':
         if not form.validate_on_submit():
             return render_template('/signup.html', form=form)
-        #if form.validate_on_submit():
         username = form.username.data
         email = form.email.data
         password = form.password.data
-
-
-        # Get form values from json
-       # data = request.get_json()
-       # username = data['username']
-       # email = data['email']
-       # password = data['password']
 
         # Check if username or email already exists in DB
         username_check = db.session.execute(
@@ -248,11 +232,16 @@ def signup():
             user = MPUser(
                 username=username,
                 email=email,
-                public_id=str(uuid.uuid4()),
-                password_hash=generate_password_hash(password)
+                password=password
             )
             db.session.add(user)
             db.session.commit()
-            print('sign up ok')
-            return make_response('Signup success', 201)
-            
+            send_user_validation_email(user)
+            return render_template('verify_email.html')
+   
+@app.route('/verify/<token>', methods=['GET'])
+def validate_user(token):
+    form=LoginForm()
+    print(MPUser.verify_user_verification_token(token))
+    return render_template('login.html', form=form, signup='success')
+    #TODO finish

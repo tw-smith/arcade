@@ -32,6 +32,7 @@ class MPUser(db.Model):
     username = db.Column(db.String(50), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+    verified = db.Column(db.Boolean(1))
 
     def __init__(self, username, email, password):
         self.username = username

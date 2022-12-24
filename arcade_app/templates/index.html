@@ -1,18 +1,5 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snake</title>
-    <link href="static/common.css" rel="stylesheet">
-    <link href="static/snakegame.css" rel="stylesheet">
-    <script src="static/built/high_score.js" defer></script>
-    <script src="static/built/snake.js" defer></script>
-   
-  <!--  <link href="style.css" rel="stylesheet"> -->
-  </head>
-  <body class="container">
-    <div class="container">
+{% extends "base.html" %}
+{% block content %}
       <div id="modal" class="modal">
         <h2 class="text--big text--title gradient">Snake</h2>
         <h2 class="text--big">&#128013</h2>
@@ -31,6 +18,5 @@
           </div>
           <button type="button" id="downButton" class="controlButtons__button">&#8595;</button> 
         </div>
-    </div>
-  </body>
-</html>
+{% endblock %}
+    

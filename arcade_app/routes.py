@@ -189,6 +189,8 @@ def signup():
 @app.route('/verify/<token>', methods=['GET'])
 def validate_user(token):
     user = MPUser.verify_user_verification_token(token)
+    if type(user) == Response:
+        return user
     user[0].verified = True
     db.session.commit()
     return redirect(url_for('login', signup='success'))

@@ -102,30 +102,32 @@ class MPUser(db.Model):
                                 issuer='https://arcade.tw-smith.me')
 
         except jwt.exceptions.ExpiredSignatureError:
-            return make_response('Token has expired', 401, {'WWW-Authentication': 'Bearer realm="Expired token"'})
+            raise jwt.exceptions.ExpiredSignatureError
+
         except jwt.exceptions.InvalidAlgorithmError:
-            return make_response('Invalid algorithm', 401, {'WWW-Authentication': 'Bearer realm="Invalid algorithm'})
+            raise jwt.exceptions.InvalidAlgorithmError
+
         except jwt.exceptions.InvalidIssuedAtError:
-            return make_response('Invalid issuer', 401, {'WWW-Authentication': 'Bearer realm="Invalid issuer'})
+            raise jwt.exceptions.InvalidIssuedAtError
+
         except jwt.exceptions.InvalidSignatureError:
-            return make_response('Invalid signature', 401, {'WWW-Authentication': 'Bearer realm="Invalid signature"'})
+            raise jwt.exceptions.InvalidSignatureError
+
         except jwt.exceptions.MissingRequiredClaimError:
-            return make_response('Missing claim', 401, {'WWW-Authentication': 'Bearer realm="missing claim"'})
+            raise jwt.exceptions.MissingRequiredClaimError
+
         except jwt.exceptions.DecodeError:
-            return make_response('JWT decode error', 401, {'WWW-Authentication': 'Bearer realm="JWT decode error"'})
+            raise jwt.exceptions.DecodeError
 
     
     @staticmethod
     def verify_user_verification_token(token):
-        # try:
-        #     id = jwt.decode(token,
-        #                     options={'require': ['exp', 'iss']},
-        #                     key=app.config['SECRET_KEY'],
-        #                     algorithms='HS256',
-        #                     issuer='https://arcade.tw-smith.me')['public_id']
-        # except:
-        #     return
-        public_id = MPUser.decode_token(token)['public_id']
+        try:
+            public_id = MPUser.decode_token(token)
+        except:
+            return make_response('401 Unauthorized', 401, {'WWW-Authentication': 'Bearer realm="Site access"'})
+        public_id = public_id['public_id']
+
         print(public_id)
         return db.session.execute(db.select(MPUser).filter_by(public_id=public_id)).first()
 

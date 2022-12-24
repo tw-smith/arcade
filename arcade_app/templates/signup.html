@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Signup</title>
-        <script src="/static/built/auth.js" defer></script>
-        <link href="/static/common.css" rel="stylesheet">
-    </head>
-    <body class="container">
+{% extends "base.html" %}
+{% block content %}
         <h2 class="text--big text--title gradient">Snake</h2>
         <h2 class="text--big">&#128013</h2>
         <h3 class="text">Sign Up</h3>
@@ -31,5 +23,5 @@
             {% endfor %}
             {{ form.submit(class_="form__item") }}
         </form>
-    </body>
-</html>
+{% endblock %}
+

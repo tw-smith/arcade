@@ -198,12 +198,14 @@ def login():
 
 
         if user.check_password(password):
+            if not user.verified:
+                return "<p>Not verified</p>"
 
             token, fingerPrintCookie = create_token(user)
 
             return make_response(jsonify({'token': token}),
-                                 201,
-                                 {'Set-Cookie': fingerPrintCookie})
+                                201,
+                                {'Set-Cookie': fingerPrintCookie})
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -242,6 +244,10 @@ def signup():
 @app.route('/verify/<token>', methods=['GET'])
 def validate_user(token):
     form=LoginForm()
-    print(MPUser.verify_user_verification_token(token))
+    user = MPUser.verify_user_verification_token(token)
+    print(user)
+    print(user[0].email)
+    user[0].verified = True
+    db.session.commit()
     return render_template('login.html', form=form, signup='success')
     #TODO finish

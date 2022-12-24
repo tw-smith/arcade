@@ -39,6 +39,7 @@ class MPUser(db.Model):
         self.email = email
         self.password_hash = generate_password_hash(password)
         self.public_id = str(uuid.uuid4())
+        self.verified = False
 
 
     def get_user_verification_token(self, expires_in=600):

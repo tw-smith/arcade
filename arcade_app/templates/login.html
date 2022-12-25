@@ -2,12 +2,13 @@
 {% block content %}
         <h2 class="text--big text--title gradient">Snake</h2>
         <h2 class="text--big">&#128013</h2>
-        {% if signup == "success" %}
-        <h3 class="text text--red">Signup succesfull! Please log in.</h3>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+            <h3 class="text text--red">{{ message }}</h3>
+        {% endfor %}
         {% endif %}
-        {% if signup == "exists" %}
-        <h3 class="text text--red">User already exists. Please log in</h3>
-        {% endif %}
+        {% endwith %}
         <h3 class="text">Log In</h3>
         <form class="form" action="" method="post" novalidate>
             {{ form.hidden_tag() }}
@@ -21,6 +22,10 @@
             {% endfor %}
             {{ form.submit(class_="form__item") }}
         </form>
+        <form class="form">
+            <button type="submit" class="form__item" formaction={{ url_for('request_password_reset') }}>Forgotten password?</button>
+        </form>
+        
         
         <!-- TODO remove this test button -->
         <form name="getusers">

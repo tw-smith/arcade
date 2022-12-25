@@ -18,3 +18,12 @@ class SignupForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired(), Length(min=8), EqualTo('repeat_password')])
     repeat_password = PasswordField('Repeat Password', validators=[DataRequired(), Length(min=8)])
     submit = SubmitField('Sign Up')
+
+class PasswordResetRequestForm(FlaskForm):
+    email = EmailField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Reset Password')
+
+class PasswordResetForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=8), EqualTo('repeat_password')])
+    repeat_password = PasswordField('Repeat Password', validators=[DataRequired(), Length(min=8)])
+    submit = SubmitField('Sign Up')

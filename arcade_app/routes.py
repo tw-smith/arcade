@@ -1,8 +1,8 @@
-from flask import render_template, request, jsonify, Response, make_response, redirect, url_for
+from flask import render_template, request, jsonify, Response, make_response, redirect, url_for, flash
 from arcade_app import app, db
-from arcade_app.forms import LoginForm, SignupForm
+from arcade_app.forms import LoginForm, SignupForm, PasswordResetRequestForm, PasswordResetForm
 from arcade_app.models import Score, User, MPUser
-from arcade_app.email import send_user_validation_email
+from arcade_app.email import send_user_validation_email, send_password_reset_email
 import json
 from werkzeug.security import check_password_hash
 from functools import wraps
@@ -101,14 +101,16 @@ def get_all_users(current_user):
 
 
 @app.route('/login', methods=['GET', 'POST'])
-def login():
+def login(message=None):
     form = LoginForm()
     if request.method == 'GET':
-        if 'signup' in request.args:
+        if 'signup' in request.args: # TODO change this to return redirect?
             if request.args['signup'] == 'success':
-                return render_template('login.html', signup='success', form=form)
+                flash("Signup successful! Please log in.")
+                return render_template('login.html', form=form)
             if request.args['signup'] == 'exists':
-                return render_template('login.html', signup='exists', form=form)
+                flash("User already exists! Please log in.")
+                return render_template('login.html', form=form)
         return render_template('login.html', form=form)
     elif request.method == 'POST':
         if not form.validate_on_submit():
@@ -171,7 +173,7 @@ def signup():
             db.select(MPUser).filter_by(email=email)).first()
 
         # If username or email already exists then throw error, otherwise create user
-        if username_check or email_check:
+        if username_check or email_check: #TODO fix this to flash message and login page
             print('username or email already exists')
             return make_response('User already exists!', 409)
         else:
@@ -193,4 +195,51 @@ def validate_user(token):
         return user
     user[0].verified = True
     db.session.commit()
-    return redirect(url_for('login', signup='success'))
+    flash("Signup successful! Please log in.")
+    return redirect(url_for('login'))
+
+
+
+@app.route('/requestresetpassword', methods=['GET', 'POST'])
+def request_password_reset():
+    form = PasswordResetRequestForm()
+    if request.method == 'POST':
+        print("in post")
+        if form.validate_on_submit():
+            print("form valid")
+            user = db.session.execute(db.select(MPUser).filter_by(email=form.email.data)).first()
+            if user:
+                user = user[0]
+                send_password_reset_email(user)
+                flash("Password reset link sent if this account exists")
+                return redirect(url_for('login'))
+        print("form invalid")
+        print(form.validate_on_submit())
+        print(form.errors)
+    if request.method == 'GET':
+        return render_template('requestresetpassword.html', title='Reset Password', form=form)            
+
+
+@app.route('/resetpassword/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    user = MPUser.verify_user_verification_token(token)
+    if type(user) == Response:
+        # TODO is this the best way to handle a 401
+        return redirect(url_for('index'))
+
+    form = PasswordResetForm()
+    if form.validate_on_submit():
+        user[0].set_password(form.password.data)
+        db.session.commit()
+        flash("Password reset. Please log in")
+        return redirect(url_for('login'))
+
+    return render_template('resetpassword.html', form=form)
+
+
+
+
+
+
+
+

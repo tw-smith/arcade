@@ -13,11 +13,6 @@ def add_security_headers(response):
     response.headers['Strict-Transport-Security'] = "max-age=31536000; includeSubDomains; preload"
     return response
 
-@app.errorhandler(500)
-def internal_error(error):
-    print("http 500")
-    return render_template('500.html'), 500
-
 
 @app.route('/score', methods=['GET', 'POST'])
 def score_handler():
@@ -67,8 +62,6 @@ def game_menu():
 @app.route('/login', methods=['GET', 'POST'])
 def login(message=None):
     form = LoginForm()
-    if request.method == 'GET':
-        return render_template('login.html', title='Sign In', form=form)
     if request.method == 'POST':
         if form.validate_on_submit():
             user = db.session.execute(db.select(MPUser).filter_by(username=form.username.data)).first()
@@ -82,6 +75,7 @@ def login(message=None):
             if not redirect_to or url_parse(redirect_to).netloc != '':
                 redirect_to = url_for('index')
             return redirect(redirect_to)
+    return render_template('login.html', title='Sign In', form=form)
 
 @app.route('/logout')
 def logout():
@@ -92,35 +86,33 @@ def logout():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = SignupForm()
-    if request.method == 'GET':
-        return render_template('signup.html', form=form)
-    elif request.method == 'POST':
-        if not form.validate_on_submit():
-            return render_template('/signup.html', form=form)
-        username = form.username.data
-        email = form.email.data
-        password = form.password.data
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            username = form.username.data
+            email = form.email.data
+            password = form.password.data
 
-        # Check if username or email already exists in DB
-        username_check = db.session.execute(
-            db.select(MPUser).filter_by(username=username)).first()
-        email_check = db.session.execute(
-            db.select(MPUser).filter_by(email=email)).first()
+            # Check if username or email already exists in DB
+            username_check = db.session.execute(
+                db.select(MPUser).filter_by(username=username)).first()
+            email_check = db.session.execute(
+                db.select(MPUser).filter_by(email=email)).first()
 
-        # If username or email already exists then throw error, otherwise create user
-        if username_check or email_check:
-            flash('Username or email already exists!')
-            return redirect(url_for('login'))
-        else:
-            user = MPUser(
-                username=username,
-                email=email,
-                password=password
-            )
-            db.session.add(user)
-            db.session.commit()
-            send_user_validation_email(user)
-            return render_template('verify_email.html')
+            # If username or email already exists then throw error, otherwise create user
+            if username_check or email_check:
+                flash('Username or email already exists!')
+                return redirect(url_for('login'))
+            else:
+                user = MPUser(
+                    username=username,
+                    email=email,
+                    password=password
+                )
+                db.session.add(user)
+                db.session.commit()
+                send_user_validation_email(user)
+                return render_template('verify_email.html')
+    return render_template('signup.html', title='Sign Up', form=form)
 
 
 @app.route('/verify/<token>', methods=['GET'])

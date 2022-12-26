@@ -1,5 +1,7 @@
 from arcade_app import db, app, login
 from werkzeug.security import generate_password_hash, check_password_hash
+from argon2 import PasswordHasher, exceptions
+import argon2
 import jwt
 from datetime import datetime, timedelta
 import uuid
@@ -7,6 +9,8 @@ import random
 import string
 from flask import make_response, render_template, url_for
 
+
+ph = PasswordHasher()
 
 @login.user_loader
 def load_user(public_id):
@@ -47,7 +51,10 @@ class MPUser(db.Model):
     def __init__(self, username, email, password):
         self.username = username
         self.email = email
-        self.password_hash = generate_password_hash(password)
+        #self.password_hash = generate_password_hash(password)
+        self.password_hash = ph.hash(password)
+
+
         self.public_id = str(uuid.uuid4())
         self.verified = False
 
@@ -137,10 +144,23 @@ class MPUser(db.Model):
         return db.session.execute(db.select(MPUser).filter_by(public_id=public_id)).first()
 
     def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
+        self.password_hash = ph.hash(password)
 
     def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+        #return check_password_hash(self.password_hash, password)
+        try:
+            check = ph.verify(self.password_hash, password)
+        except (argon2.exceptions.VerificationError, argon2.exceptions.HashingError):
+            raise
+
+        if ph.check_needs_rehash(self.password_hash):
+            self.password_hash = ph.hash(password)
+            db.session.commit()
+
+        return check
+
+
+
 
     def __repr__(self):
         return '<MP_User {}>'.format(self.username)

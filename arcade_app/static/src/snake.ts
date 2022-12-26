@@ -88,17 +88,19 @@ class Modal {
         const postScoreButton = document.createElement("button");
         const playAgainButton = document.createElement("button");
 
-        gameOverHeader.className = "gameOver__title";
+        gameOverHeader.className = "text text--big";
         gameOverHeader.innerText = "Game Over!";
         scoreForm.name = "scoreForm";
-        scoreForm.className = "scoreForm";
+        scoreForm.className = "form";
         nameInput.name = "username";
         nameInput.type = "text";
-        postScoreButton.className = "menuButton";
+        nameInput.className = "form__item";
+        nameInput.required;
+        postScoreButton.className = "form__item";
         postScoreButton.type = "button";
         postScoreButton.onclick = postScore;
         postScoreButton.innerText = "Submit Score";
-        playAgainButton.className = "menuButton";
+        playAgainButton.className = "form__item";
         playAgainButton.type = "button";
         playAgainButton.onclick = startGame;
         playAgainButton.innerText = "Play Again";
@@ -116,17 +118,17 @@ class Modal {
         const startButton = document.createElement("button");
         const highScoreButton = document.createElement("button");
 
-        startHeader.className = "startModal__title gradient";
+        startHeader.className = "text--big text--title gradient";
         startHeader.innerText = "Snake";
-        startEmoji.className = "startModal__title";
+        startEmoji.className = "text--big";
         startEmoji.innerHTML = "&#128013";
 
-        startButton.className = "menuButton";
+        startButton.className = "form__item";
         startButton.type = "button";
         startButton.innerText = "Start";
         startButton.onclick = startGame;
 
-        highScoreButton.className = "menuButton";
+        highScoreButton.className = "form__item";
         highScoreButton.type = "button";
         highScoreButton.innerText = "High Scores";
         highScoreButton.onclick = function () {
@@ -140,13 +142,13 @@ class Modal {
         break;
       case "highScores":
         const backButton = document.createElement("button");
-        backButton.className = "menuButton";
+        backButton.className = "form__item";
         backButton.innerText = "Back";
         backButton.onclick = function () {
           gameModal.update("startGame");
         };
         let list = document.createElement("ul");
-        list.className = "modal__scoreList";
+        list.className = "list text text--red";
 
         let highScores = await getHighScores();
         for (let i of await highScores) {

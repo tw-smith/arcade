@@ -77,7 +77,6 @@ class MPUser(db.Model):
 
     def create_token(self, expires_in=600):
         # Encode token
-        # TODO should we be using a different crypto algo?
         token = jwt.encode({
             'iss': 'https://arcade.tw-smith.me',
             'iat': datetime.utcnow(),

@@ -3,8 +3,12 @@
       <div id="modal" class="modal">
         <h2 class="text--big text--title gradient">Snake</h2>
         <h2 class="text--big">&#128013</h2>
-        <button class="form__item" type="button" onclick="startGame()">Start</button>
-        <button class="form__item" type="button" onclick="gameModal.update('highScores')">High Scores</button>
+        <form class="form">
+          <button class="form__item" type="button" onclick="startGame()">Start</button>
+          <button class="form__item" type="button" onclick="gameModal.update('highScores')">High Scores</button>
+          <button class="form__item" type="submit" formaction={{ url_for('login') }}>Log In</button>
+          <button class="form__item" type="submit" formaction={{ url_for('signup') }}>Sign Up</button>
+        </form>
       </div>
       <!-- TODO should these be h2 or something like h3? -->
         <h2 id="scoreHeader" class="text">Score: 0</h2>

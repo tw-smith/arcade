@@ -93,11 +93,10 @@ def token_required(f):
     return decorated
 
 
-@app.route('/users', methods=['GET'])
+@app.route('/menu', methods=['GET'])
 @token_required
-def get_all_users(current_user):
-    users = db.session.execute(db.select(User)).scalars().all()
-    return make_response('OK', 201)
+def game_menu(current_user):
+    return render_template('menu.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -149,9 +148,14 @@ def login(message=None):
 
             token, fingerPrintCookie = user.create_token()
 
-            return make_response(jsonify({'token': token}),
-                                 201,
+            response = make_response(jsonify({'token': token}),
+                                 302,
                                  {'Set-Cookie': fingerPrintCookie})
+
+
+            return redirect(url_for('game_menu'), 302, response)
+
+
 
 
 @app.route('/signup', methods=['GET', 'POST'])

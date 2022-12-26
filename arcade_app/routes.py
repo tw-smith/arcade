@@ -10,7 +10,11 @@ from functools import wraps
 from sqlalchemy import exc
 from flask_login import current_user, login_user, logout_user, login_required
 
-
+@app.after_request
+def add_security_headers(response):
+    response.headers['Content-Security-Policy'] = "frame-ancestors: 'deny'"
+    response.headers['Strict-Transport-Security'] = "max-age=31536000; includeSubDomains; preload"
+    return response
 
 @app.errorhandler(500)
 def internal_error(error):

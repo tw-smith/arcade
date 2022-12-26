@@ -1,5 +1,4 @@
 from arcade_app import db, app, login
-from werkzeug.security import generate_password_hash, check_password_hash
 from argon2 import PasswordHasher, exceptions
 import argon2
 import jwt
@@ -51,7 +50,6 @@ class MPUser(db.Model):
     def __init__(self, username, email, password):
         self.username = username
         self.email = email
-        #self.password_hash = generate_password_hash(password)
         self.password_hash = ph.hash(password)
 
 
@@ -78,16 +76,6 @@ class MPUser(db.Model):
 
 
     def create_token(self, expires_in=600):
-        # TODO is the fingerprint ok as random string or does it need to be random hex?
-        userFingerprint = ''.join(
-        random.choices(string.ascii_letters, k=50))
-        fingerPrintCookie = 'secure-fgp=' + userFingerprint + \
-        "; SameSite=Strict; HttpOnly; Secure"
-
-    # Create hash of fingerprint
-    # TODO is this hashing algo sufficient
-        userFingerprintHash = generate_password_hash(userFingerprint, 'SHA256')
-
         # Encode token
         # TODO should we be using a different crypto algo?
         token = jwt.encode({
@@ -95,14 +83,13 @@ class MPUser(db.Model):
             'iat': datetime.utcnow(),
             'exp': datetime.utcnow() + timedelta(minutes=15),
             'public_id': self.public_id,
-            'userFingerprint': userFingerprintHash,
         }, app.config['SECRET_KEY'],
             headers={
             'typ': 'JWT',
             'alg': 'HS256'
             }
         )
-        return token, fingerPrintCookie
+        return token
 
 
 
@@ -147,7 +134,6 @@ class MPUser(db.Model):
         self.password_hash = ph.hash(password)
 
     def check_password(self, password):
-        #return check_password_hash(self.password_hash, password)
         try:
             check = ph.verify(self.password_hash, password)
         except (argon2.exceptions.VerificationError, argon2.exceptions.HashingError):

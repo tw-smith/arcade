@@ -4,10 +4,7 @@ from arcade_app.forms import LoginForm, SignupForm, PasswordResetRequestForm, Pa
 from arcade_app.models import Score, User, MPUser
 from arcade_app.email import send_user_validation_email, send_password_reset_email
 import json
-from werkzeug.security import check_password_hash
 from werkzeug.urls import url_parse
-from functools import wraps
-from sqlalchemy import exc
 from flask_login import current_user, login_user, logout_user, login_required
 
 @app.after_request
@@ -59,44 +56,6 @@ def score_handler():
 @app.route('/index', methods=['GET'])
 def index():
     return render_template('index.html')
-
-
-# custom decorator for verifying token
-def token_required(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        token = None
-        userFingerprint = None
-        print(request.headers)
-
-        if 'Authorization' in request.headers:
-            token = MPUser.decode_token(request.headers.get('Authorization'))
-            userFingerprintHash = token['userFingerprint']
-
-        if not token:
-            return make_response('Missing token!', 401, {'WWW-Authentication': 'Bearer realm="Access token required"'})
-
-        if 'Cookie' not in request.headers:
-            return make_response('No fingerprint cookie', 401, {'WWW-Authentication': 'Bearer realm="fingerprint cookie"'})
-        userFingerprint = request.cookies.get('secure-fgp')
-
-        if not userFingerprint:
-            return make_response('No fingerprint', 401, {'WWW-Authentication': 'Bearer realm="Fingerprint required'})
-
-        if not check_password_hash(userFingerprintHash, userFingerprint):
-            return make_response('Invalid fingerprint', 401, {'WWW-Authentication': 'Bearer realm="fingerprint error"'})
-
-        try:
-            print(token['public_id'])
-            current_user = db.session.execute(db.select(MPUser).filter_by(
-                public_id=token['public_id'])).first()
-            print(current_user)
-
-        except exc.SQLAlchemyError:
-            return make_response('DB Error!', 500)
-
-        return f(current_user, *args, **kwargs)
-    return decorated
 
 
 @app.route('/menu', methods=['GET'])

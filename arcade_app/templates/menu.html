@@ -5,6 +5,11 @@
         <h2 class="text--big">&#128013</h2>
 
         <h3 class="text text--red">Welcome to the game menu!</h3>
+        <h3 class="text text--red">{{ current_user.username }}</h3>
+        <form>
+          <button class="form__item" type="submit" formaction={{ url_for('logout') }}>Log out</button>
+        </form>
+        
        <!-- <form class="form">
           <button class="form__item" type="button" onclick="gameModal.update('highScores')">High Scores</button>
           <button class="form__item" type="submit" formaction={{ url_for('login') }}>Log In</button>

@@ -5,8 +5,10 @@ from arcade_app.models import Score, User, MPUser
 from arcade_app.email import send_user_validation_email, send_password_reset_email
 import json
 from werkzeug.security import check_password_hash
+from werkzeug.urls import url_parse
 from functools import wraps
 from sqlalchemy import exc
+from flask_login import current_user, login_user, logout_user, login_required
 
 
 
@@ -94,8 +96,8 @@ def token_required(f):
 
 
 @app.route('/menu', methods=['GET'])
-@token_required
-def game_menu(current_user):
+@login_required
+def game_menu():
     return render_template('menu.html')
 
 
@@ -103,59 +105,25 @@ def game_menu(current_user):
 def login(message=None):
     form = LoginForm()
     if request.method == 'GET':
-        if 'signup' in request.args: # TODO change this to return redirect?
-            if request.args['signup'] == 'success':
-                flash("Signup successful! Please log in.")
-                return render_template('login.html', form=form)
-            if request.args['signup'] == 'exists':
-                flash("User already exists! Please log in.")
-                return render_template('login.html', form=form)
-        return render_template('login.html', form=form)
-    elif request.method == 'POST':
-        if not form.validate_on_submit():
-            return render_template('/login.html', form=form)
-        username = form.username.data
-        password = form.password.data
+        return render_template('login.html', title='Sign In', form=form)
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            user = db.session.execute(db.select(MPUser).filter_by(username=form.username.data)).first()
+            if not user or not user[0].check_password(form.password.data):
+                flash('Invalid username or password!')
+                return redirect(url_for('login'))
+            user = user[0]
+            login_user(user)
+            # get next from query string if we were redirected here by loginrequired
+            redirect_to = request.args.get('next')
+            if not redirect_to or url_parse(redirect_to).netloc != '':
+                redirect_to = url_for('index')
+            return redirect(redirect_to)
 
-        # check that form has data we need
-        if not username or not password:
-            return make_response('No username or password',
-                                 401,
-                                 {'WWW-Authentication': 'Basic realm="No username/password supplied"'})
-
-        # hit DB for user
-        user = db.session.execute(
-            db.select(MPUser).filter_by(username=username)).first()
-
-        # TODO remove or put proper DB error catch in?
-        if not user:
-            return render_template('500.html'), 500
-
-        # TODO This is messy, there must be a way to return user as a
-        # useful Python object rather than this SQLalchemy thing
-        for row in user:
-            user = row
-
-        # return 401 if user does not exist
-        if not user:
-            return make_response('No such user exists',
-                                 401,
-                                 {'WWW-Authenticate': 'Basic realm="User does not exist"'})
-
-        if user.check_password(password):
-            if not user.verified:
-                return "<p>Not verified</p>"
-
-            token, fingerPrintCookie = user.create_token()
-
-            response = make_response(jsonify({'token': token}),
-                                 302,
-                                 {'Set-Cookie': fingerPrintCookie})
-
-
-            return redirect(url_for('game_menu'), 302, response)
-
-
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -177,9 +145,9 @@ def signup():
             db.select(MPUser).filter_by(email=email)).first()
 
         # If username or email already exists then throw error, otherwise create user
-        if username_check or email_check: #TODO fix this to flash message and login page
-            print('username or email already exists')
-            return make_response('User already exists!', 409)
+        if username_check or email_check:
+            flash('Username or email already exists!')
+            return redirect(url_for('login'))
         else:
             user = MPUser(
                 username=username,
@@ -194,9 +162,12 @@ def signup():
 
 @app.route('/verify/<token>', methods=['GET'])
 def validate_user(token):
-    user = MPUser.verify_user_verification_token(token)
-    if type(user) == Response:
-        return user
+    try:
+        user = MPUser.verify_user_verification_token(token)
+    except:
+        flash("Verification error. Please try again")
+        return redirect(url_for('signup'))
+        #return make_response(render_template('signup.html'), 401, {'WWW-Authentication': 'Bearer realm="Site access"'})
     user[0].verified = True
     db.session.commit()
     flash("Signup successful! Please log in.")
@@ -208,28 +179,25 @@ def validate_user(token):
 def request_password_reset():
     form = PasswordResetRequestForm()
     if request.method == 'POST':
-        print("in post")
         if form.validate_on_submit():
-            print("form valid")
             user = db.session.execute(db.select(MPUser).filter_by(email=form.email.data)).first()
             if user:
                 user = user[0]
                 send_password_reset_email(user)
                 flash("Password reset link sent if this account exists")
                 return redirect(url_for('login'))
-        print("form invalid")
-        print(form.validate_on_submit())
-        print(form.errors)
     if request.method == 'GET':
         return render_template('requestresetpassword.html', title='Reset Password', form=form)            
 
 
 @app.route('/resetpassword/<token>', methods=['GET', 'POST'])
 def reset_password(token):
-    user = MPUser.verify_user_verification_token(token)
-    if type(user) == Response:
-        # TODO is this the best way to handle a 401
-        return redirect(url_for('index'))
+    try:
+        user = MPUser.verify_user_verification_token(token)
+    except:
+        flash("Password reset error. Please try again")
+        return redirect(url_for('request_password_reset'))
+        #return make_response(render_template(url_for('index')), 401, {'WWW-Authentication': 'Bearer realm="Site access"'})
 
     form = PasswordResetForm()
     if form.validate_on_submit():

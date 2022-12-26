@@ -1,10 +1,10 @@
 @font-face {
     font-family: "retronoid";
-    src: url('assets/RetronoidItalic-ln9V.ttf') format('truetype');
+    src: url('/static/assets/RetronoidItalic-ln9V.ttf') format('truetype');
 }
 @font-face {
     font-family: "press start";
-    src: url('assets/Press_Start_2P/PressStart2P-Regular.ttf') format('truetype');
+    src: url('/static/assets/Press_Start_2P/PressStart2P-Regular.ttf') format('truetype');
 }
 
 html {

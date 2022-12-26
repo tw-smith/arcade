@@ -1,11 +1,19 @@
-from arcade_app import db, app
+from arcade_app import db, app, login
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 from datetime import datetime, timedelta
 import uuid
 import random
 import string
-from flask import make_response
+from flask import make_response, render_template, url_for
+
+
+@login.user_loader
+def load_user(public_id):
+    user = db.session.execute(db.select(MPUser).filter_by(public_id=public_id)).first()
+    if user:
+        return user[0]
+    return None
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -43,6 +51,22 @@ class MPUser(db.Model):
         self.public_id = str(uuid.uuid4())
         self.verified = False
 
+    # Properties & method for flask-login
+    @property
+    def is_active(self):
+        return self.verified
+    
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return self.public_id
+
 
 
 
@@ -75,23 +99,6 @@ class MPUser(db.Model):
 
 
 
-
-    # def get_user_verification_token(self, expires_in=600):
-    #     return jwt.encode({
-    #             'iss': 'https://arcade.tw-smith.me',
-    #             'iat': datetime.utcnow(),
-    #             'exp': datetime.utcnow() + timedelta(seconds=expires_in),
-    #             'public_id': self.public_id,
-    #         }, app.config['SECRET_KEY'],
-    #             headers={
-    #             'typ': 'JWT',
-    #             'alg': 'HS256'
-    #         }
-    #     )
-
-
-
-
     @staticmethod
     def decode_token(token):
         try:
@@ -111,7 +118,7 @@ class MPUser(db.Model):
             raise jwt.exceptions.InvalidIssuedAtError
 
         except jwt.exceptions.InvalidSignatureError:
-            raise jwt.exceptions.InvalidSignatureError
+           raise jwt.exceptions.InvalidSignatureError
 
         except jwt.exceptions.MissingRequiredClaimError:
             raise jwt.exceptions.MissingRequiredClaimError
@@ -125,10 +132,8 @@ class MPUser(db.Model):
         try:
             public_id = MPUser.decode_token(token)
         except:
-            return make_response('401 Unauthorized', 401, {'WWW-Authentication': 'Bearer realm="Site access"'})
+            raise
         public_id = public_id['public_id']
-
-        print(public_id)
         return db.session.execute(db.select(MPUser).filter_by(public_id=public_id)).first()
 
     def set_password(self, password):

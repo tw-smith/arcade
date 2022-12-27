@@ -68,32 +68,33 @@ class Modal {
             this.clear();
             switch (option) {
                 case "gameOver":
-                    const gameOverHeader = document.createElement("h2");
-                    const scoreForm = document.createElement("form");
-                    const nameInput = document.createElement("input");
-                    const postScoreButton = document.createElement("button");
-                    const playAgainButton = document.createElement("button");
-                    gameOverHeader.className = "text text--big";
-                    gameOverHeader.innerText = "Game Over!";
-                    scoreForm.name = "scoreForm";
-                    scoreForm.className = "form";
-                    nameInput.name = "username";
-                    nameInput.type = "text";
-                    nameInput.className = "form__item";
-                    nameInput.required;
-                    postScoreButton.className = "form__item";
-                    postScoreButton.type = "button";
-                    postScoreButton.onclick = postScore;
-                    postScoreButton.innerText = "Submit Score";
-                    playAgainButton.className = "form__item";
-                    playAgainButton.type = "button";
-                    playAgainButton.onclick = startGame;
-                    playAgainButton.innerText = "Play Again";
-                    scoreForm.appendChild(nameInput);
-                    scoreForm.appendChild(postScoreButton);
-                    scoreForm.appendChild(playAgainButton);
-                    this.modal.appendChild(gameOverHeader);
-                    this.modal.appendChild(scoreForm);
+                    window.location.replace('/gameover');
+                    // const gameOverHeader = document.createElement("h2");
+                    // const scoreForm = document.createElement("form");
+                    // const nameInput = document.createElement("input");
+                    // const postScoreButton = document.createElement("button");
+                    // const playAgainButton = document.createElement("button");
+                    // gameOverHeader.className = "text text--big";
+                    // gameOverHeader.innerText = "Game Over!";
+                    // scoreForm.name = "scoreForm";
+                    // scoreForm.className = "form";
+                    // nameInput.name = "username";
+                    // nameInput.type = "text";
+                    // nameInput.className = "form__item";
+                    // nameInput.required;
+                    // postScoreButton.className = "form__item";
+                    // postScoreButton.type = "button";
+                    // postScoreButton.onclick = postScore;
+                    // postScoreButton.innerText = "Submit Score";
+                    // playAgainButton.className = "form__item";
+                    // playAgainButton.type = "button";
+                    // playAgainButton.onclick = startGame;
+                    // playAgainButton.innerText = "Play Again";
+                    // scoreForm.appendChild(nameInput);
+                    // scoreForm.appendChild(postScoreButton);
+                    // scoreForm.appendChild(playAgainButton);
+                    // this.modal.appendChild(gameOverHeader);
+                    // this.modal.appendChild(scoreForm);
                     break;
                 case "startGame":
                     const startHeader = document.createElement("h2");
@@ -298,7 +299,7 @@ function postScore() {
     return __awaiter(this, void 0, void 0, function* () {
         let form = document.forms["scoreForm"];
         const formData = { username: form.username.value, score: game.score };
-        let response = yield fetch("/score", {
+        let response = yield fetch("/highscores", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -307,7 +308,9 @@ function postScore() {
         });
         console.log(response);
         if (response.ok) {
-            gameModal.update("highScores");
+            console.log("post response ok");
+            gameModal.hide();
+            // gameModal.update("highScores");
         }
         else {
             console.log("post response not ok");

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text text--big">Game Over!</h2>
+<form class="form">
+    <button class="form__item" type="submit" formaction={{ url_for('main.singleplayer') }}>Play Again</button>
+    <button class="form__item" type="submit" formaction={{ url_for('main.highscores') }}>High Scores</button>
+    <button class="form__item" type="submit" formaction={{ url_for('main.game_menu') }}>Main Menu</button>
+  </form>
+
+{% endblock %}

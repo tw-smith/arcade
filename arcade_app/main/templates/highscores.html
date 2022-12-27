@@ -6,9 +6,12 @@
 <ul class="list text text--red">
     {% for score in scores %}
     <li>
-        <span>{{score.user_name}} :</span>
+        <span>{{score.username}} :</span>
         <span>{{score.score}}</span>
     </li>
     {% endfor %}
 </ul>
+<form class="form">
+    <button class="form__item" type="submit" formaction={{ url_for('main.game_menu') }}>Back</button>
+  </form>
 {% endblock %}

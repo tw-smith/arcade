@@ -16,19 +16,19 @@ def load_user(public_id):
         return user[0]
     return None
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_name = db.Column(db.String(30))
-    scores = db.relationship('Score', backref='player', lazy='dynamic')
+# class User(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     user_name = db.Column(db.String(30))
+#     scores = db.relationship('Score', backref='player', lazy='dynamic')
 
-    def as_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+#     def as_dict(self):
+#         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 class Score(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     score = db.Column(db.Integer)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('mp_user.id'))
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
@@ -44,6 +44,7 @@ class MPUser(db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     verified = db.Column(db.Boolean(1))
+    scores = db.relationship('Score', backref='player', lazy='dynamic')
 
     def __init__(self, username, email, password):
         self.username = username

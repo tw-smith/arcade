@@ -2,7 +2,7 @@ from flask import render_template, request, Response, redirect, url_for, flash
 from arcade_app import db
 from arcade_app.auth import bp
 from arcade_app.auth.forms import LoginForm, SignupForm, PasswordResetRequestForm, PasswordResetForm
-from arcade_app.models import Score, User, MPUser
+from arcade_app.models import Score, MPUser
 from arcade_app.auth.email import send_user_validation_email, send_password_reset_email
 import json
 from werkzeug.urls import url_parse

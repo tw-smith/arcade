@@ -1,5 +1,5 @@
 from flask import render_template, request, jsonify, Response
-from arcade_app import app, db
+from arcade_app import db
 from arcade_app.main import bp
 from arcade_app.models import Score, User
 import json

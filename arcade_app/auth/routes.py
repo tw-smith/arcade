@@ -1,4 +1,4 @@
-from flask import render_template, request, Response, make_response, redirect, url_for, flash
+from flask import render_template, request, Response, redirect, url_for, flash
 from arcade_app import db
 from arcade_app.auth import bp
 from arcade_app.auth.forms import LoginForm, SignupForm, PasswordResetRequestForm, PasswordResetForm
@@ -6,7 +6,7 @@ from arcade_app.models import Score, User, MPUser
 from arcade_app.auth.email import send_user_validation_email, send_password_reset_email
 import json
 from werkzeug.urls import url_parse
-from flask_login import current_user, login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required
 
 
 
@@ -73,7 +73,6 @@ def validate_user(token):
     except:
         flash("Verification error. Please try again")
         return redirect(url_for('auth.signup'))
-        #return make_response(render_template('signup.html'), 401, {'WWW-Authentication': 'Bearer realm="Site access"'})
     user[0].verified = True
     db.session.commit()
     flash("Signup successful! Please log in.")
@@ -103,7 +102,6 @@ def reset_password(token):
     except:
         flash("Password reset error. Please try again")
         return redirect(url_for('auth.request_password_reset'))
-        #return make_response(render_template(url_for('index')), 401, {'WWW-Authentication': 'Bearer realm="Site access"'})
 
     form = PasswordResetForm()
     if form.validate_on_submit():

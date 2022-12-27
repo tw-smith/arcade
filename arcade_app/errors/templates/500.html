@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+        <h2 class="text--big text--title gradient">Snake</h2>
+        <h2 class="text--big">&#128013</h2>
+        <h3 class="text text--red">Whoops! HTTP 500</h3>
+        <form>
+             <button class="form__item" type="submit" formaction={{ url_for('main.index') }}>Back</button>
+        </form>
+{% endblock %}

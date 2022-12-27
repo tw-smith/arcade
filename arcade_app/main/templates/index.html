@@ -6,8 +6,8 @@
         <form class="form">
           <button class="form__item" type="button" onclick="startGame()">Start</button>
           <button class="form__item" type="button" onclick="gameModal.update('highScores')">High Scores</button>
-          <button class="form__item" type="submit" formaction={{ url_for('login') }}>Log In</button>
-          <button class="form__item" type="submit" formaction={{ url_for('signup') }}>Sign Up</button>
+          <button class="form__item" type="submit" formaction={{ url_for('auth.login') }}>Log In</button>
+          <button class="form__item" type="submit" formaction={{ url_for('auth.signup') }}>Sign Up</button>
         </form>
       </div>
       <!-- TODO should these be h2 or something like h3? -->

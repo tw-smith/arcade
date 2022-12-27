@@ -1,12 +1,10 @@
-from arcade_app import db, app, login
+from arcade_app import db, login
+from flask import current_app
 from argon2 import PasswordHasher, exceptions
 import argon2
 import jwt
 from datetime import datetime, timedelta
 import uuid
-import random
-import string
-from flask import make_response, render_template, url_for
 
 
 ph = PasswordHasher()
@@ -82,7 +80,7 @@ class MPUser(db.Model):
             'iat': datetime.utcnow(),
             'exp': datetime.utcnow() + timedelta(minutes=15),
             'public_id': self.public_id,
-        }, app.config['SECRET_KEY'],
+        }, current_app.config['SECRET_KEY'],
             headers={
             'typ': 'JWT',
             'alg': 'HS256'
@@ -97,7 +95,7 @@ class MPUser(db.Model):
         try:
             return jwt.decode(token,
                                 options={'require': ['exp', 'iss']},
-                                key=app.config['SECRET_KEY'],
+                                key=current_app.config['SECRET_KEY'],
                                 algorithms='HS256',
                                 issuer='https://arcade.tw-smith.me')
 

@@ -23,6 +23,6 @@
             {{ form.submit(class_="form__item") }}
         </form>
         <form class="form">
-            <button type="submit" class="form__item" formaction={{ url_for('request_password_reset') }}>Forgotten password?</button>
+            <button type="submit" class="form__item" formaction={{ url_for('auth.request_password_reset') }}>Forgotten password?</button>
         </form>
 {% endblock %}

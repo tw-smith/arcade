@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+   <div id="modal" class="modal">
+        <h2 class="text--big text--title gradient">Snake</h2>
+        <h2 class="text--big">&#128013</h2>
+        <h3 class="text text--red">Single Player</h3>
+        <button class="form__item" type="button" onclick="startGame()">Start</button>
+    </div>
+    
+    <h2 id="scoreHeader" class="text">Score: 0</h2>
+    <h2 id="scoreEmoji">place</h2>
+    <canvas class="myCanvas"></canvas>
+    <div class="controlButtons">
+        <button type="button" id="upButton" class="controlButtons__button">&#8593;</button>
+        <div class="leftrightButtons">
+        <button type="button" id="leftButton" class="controlButtons__button">&#8592;</button>
+        <button type="button" id="rightButton" class="controlButtons__button">&#8594;</button>
+        </div>
+        <button type="button" id="downButton" class="controlButtons__button">&#8595;</button> 
+    </div>
+
+{% endblock %}

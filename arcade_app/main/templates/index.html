@@ -4,23 +4,9 @@
         <h2 class="text--big text--title gradient">Snake</h2>
         <h2 class="text--big">&#128013</h2>
         <form class="form">
-          <button class="form__item" type="button" onclick="startGame()">Start</button>
-          <button class="form__item" type="button" onclick="gameModal.update('highScores')">High Scores</button>
           <button class="form__item" type="submit" formaction={{ url_for('auth.login') }}>Log In</button>
           <button class="form__item" type="submit" formaction={{ url_for('auth.signup') }}>Sign Up</button>
         </form>
       </div>
-      <!-- TODO should these be h2 or something like h3? -->
-        <h2 id="scoreHeader" class="text">Score: 0</h2>
-        <h2 id="scoreEmoji">place</h2>
-        <canvas class="myCanvas"></canvas>
-        <div class="controlButtons">
-          <button type="button" id="upButton" class="controlButtons__button">&#8593;</button>
-          <div class="leftrightButtons">
-            <button type="button" id="leftButton" class="controlButtons__button">&#8592;</button>
-            <button type="button" id="rightButton" class="controlButtons__button">&#8594;</button>
-          </div>
-          <button type="button" id="downButton" class="controlButtons__button">&#8595;</button> 
-        </div>
 {% endblock %}
     

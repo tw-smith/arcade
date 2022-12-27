@@ -4,9 +4,11 @@
         <h2 class="text--big text--title gradient">Snake</h2>
         <h2 class="text--big">&#128013</h2>
 
-        <h3 class="text text--red">Welcome to the game menu!</h3>
-        <h3 class="text text--red">{{ current_user.username }}</h3>
-        <form>
+        <h3 class="text text--red">Welcome, {{ current_user.username }}!</h3>
+        <form class="form">
+          <button class="form__item" type="submit" formaction={{ url_for('main.singleplayer') }}>Single Player</button>
+          <button class="form__item" type="submit" formaction={{ url_for('main.multiplayer') }}>Multiplayer</button>
+          <button class="form__item" type="submit" formaction={{ url_~for('highscores') }}>High Scores</button>
           <button class="form__item" type="submit" formaction={{ url_for('auth.logout') }}>Log out</button>
         </form>
       </div>

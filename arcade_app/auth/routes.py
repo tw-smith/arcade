@@ -6,12 +6,14 @@ from arcade_app.models import Score, User, MPUser
 from arcade_app.auth.email import send_user_validation_email, send_password_reset_email
 import json
 from werkzeug.urls import url_parse
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 
 
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login(message=None):
+    if current_user.is_authenticated:
+        return redirect(url_for('main.game_menu'))
     form = LoginForm()
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -24,7 +26,7 @@ def login(message=None):
             # get next from query string if we were redirected here by loginrequired
             redirect_to = request.args.get('next')
             if not redirect_to or url_parse(redirect_to).netloc != '':
-                redirect_to = url_for('main.index')
+                redirect_to = url_for('main.game_menu')
             return redirect(redirect_to)
     return render_template('login.html', title='Sign In', form=form)
 

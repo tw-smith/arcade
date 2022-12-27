@@ -7,7 +7,7 @@
         <h3 class="text text--red">Welcome to the game menu!</h3>
         <h3 class="text text--red">{{ current_user.username }}</h3>
         <form>
-          <button class="form__item" type="submit" formaction={{ url_for('logout') }}>Log out</button>
+          <button class="form__item" type="submit" formaction={{ url_for('auth.logout') }}>Log out</button>
         </form>
       </div>
 {% endblock %}

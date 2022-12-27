@@ -11,10 +11,19 @@ import os
 app = Flask(__name__)
 app.config.from_object(Config)
 login = LoginManager(app)
-login.login_view = 'login'
+login.login_view = 'auth.login'
 db = SQLAlchemy(app)
 mail = Mail(app)
 migrate = Migrate(app, db)
+
+from arcade_app.errors import bp as errors_bp
+app.register_blueprint(errors_bp)
+
+from arcade_app.auth import bp as auth_bp
+app.register_blueprint(auth_bp, url_prefix='/auth')
+
+from arcade_app.main import bp as main_bp
+app.register_blueprint(main_bp)
 
 
 if not app.debug:
@@ -31,4 +40,4 @@ if not app.debug:
 
 
 
-from arcade_app import routes, models, errors
+from arcade_app import models

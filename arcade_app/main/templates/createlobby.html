@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js" integrity="sha384-/KNQL8Nu5gCHLqwqfQjA689Hhoqgi2S84SNUxC3roTe4EhJ9AfLkp8QiQcU8AMzI" crossorigin="anonymous"></script>
+<script src="/static/built/multiplayer.js" defer></script>
+
+<!-- <form id="lobbyform" class="form">
+    {{ form.hidden_tag() }}
+    {{ form.lobbyname(class_="form__item") }}
+    {% for error in form.lobbyname.errors %}
+    <p class="text__formerror">{{ error }}</p>
+    {% endfor %}
+{{ form.submit(class_="form__item", id_="gobutton") }} -->
+
+<button type="button" id="gobutton" class="form__item">Create Lobby</button>
+
+
+</form>
+
+
+{% endblock %}    
+

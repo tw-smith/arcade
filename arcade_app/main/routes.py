@@ -1,9 +1,10 @@
-from flask import render_template, request, jsonify, Response, redirect, url_for
-from arcade_app import db
+from flask import render_template, request, jsonify, Response, redirect, url_for, make_response, current_app
+from arcade_app import db, socketio
 from arcade_app.main import bp
 from arcade_app.models import Score, MPUser
 import json
 from flask_login import login_required, current_user
+from arcade_app.main.forms import CreateLobbyForm
 
 @bp.after_request
 def add_security_headers(response):
@@ -62,7 +63,21 @@ def singleplayer():
 @bp.route('/multiplayer', methods=['GET'])
 @login_required
 def multiplayer():
+    #lobbies = socketio.rooms.keys()
     return render_template('multiplayer.html')
+
+@bp.route('/createlobby', methods=['GET','POST'])
+@login_required
+def createlobby():
+    form = CreateLobbyForm()
+    #if form.validate_on_submit():
+        # lobbyname = form.lobbyname.data
+        # print(lobbyname)
+        # create_lobby(lobbyname)
+        #return make_response(200)
+        #socketio.emit('message',{"data"},namespace='/test')
+        #return redirect(url_for('main.multiplayer'))
+    return render_template('createlobby.html', form=form)
 
 @bp.route('/gameover', methods=['GET'])
 @login_required
@@ -81,29 +96,12 @@ def highscores():
 
     if request.method == 'POST':
         content = request.json
-        # Check if player already exists
-        #player_exists = db.session.execute(db.select(User).filter_by(
-        #    user_name=content['username'])).scalars().all()
-        #if player_exists:
-        #    for row in player_exists:
-        #        player_id = row.id
         print(current_user.id)
         s = Score(user_id=current_user.id, score=content['score'])
         db.session.add(s)
         db.session.commit()
 
-        # else:
-        #     u = User(user_name=content['username'])
-        #     db.session.add(u)
-        #     db.session.flush()
-        #     s = Score(user_id=u.id, score=content['score'])
-        #     db.session.add(s)
-        #     db.session.commit()
-
         return redirect(url_for('main.highscores'))
-
-        #return Response(status=201)
-
 
 
 

@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% block head %}
+    {{ super () }}
+    <link href="/static/snakegame.css" rel="stylesheet">
+    <script src="/static/built/snake.js" defer></script>
+{% endblock %}
 {% block content %}
 
    <div id="modal" class="modal">

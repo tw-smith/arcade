@@ -55,16 +55,7 @@ def index():
 def game_menu():
     return render_template('menu.html')
 
-@bp.route('/singleplayer', methods=['GET'])
-@login_required
-def singleplayer():
-    return render_template('singleplayer.html')
 
-@bp.route('/multiplayer', methods=['GET'])
-@login_required
-def multiplayer():
-    #lobbies = socketio.rooms.keys()
-    return render_template('multiplayer.html')
 
 @bp.route('/createlobby', methods=['GET','POST'])
 @login_required

@@ -36,6 +36,9 @@ def create_app(config_class=Config):
     from arcade_app.main import bp as main_bp
     app.register_blueprint(main_bp)
 
+    from arcade_app.game import bp as game_bp
+    app.register_blueprint(game_bp)
+
 
     if not app.debug and not app.testing:
         if not os.path.exists('logs'):

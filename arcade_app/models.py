@@ -148,3 +148,24 @@ class MPUser(db.Model):
 
     def __repr__(self):
         return '<MP_User {}>'.format(self.username)
+
+
+class Lobby(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    public_id = db.Column(db.String(50), unique=True, index=True)
+    name = db.Column(db.String(50), unique=True)
+
+    def __init__(self, name):
+        self.public_id = str(uuid.uuid4())
+        self.name = name
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'public_id': self.public_id,
+            'name': self.name
+        }
+        #return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+    # def __repr__(self):
+    #     return '<Lobby {}>'.format(self.public_id)

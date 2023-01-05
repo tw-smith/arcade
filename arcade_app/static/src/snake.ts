@@ -453,5 +453,5 @@ function render(snake: Snake, food: Food, canvas: HTMLCanvasElement) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  //gameModal = new Modal(document.getElementById("modal"));
+  gameModal = new Modal(document.getElementById("modal"));
 });

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block head %}
+    {{ super () }}
+    <script src="https://cdn.socket.io/4.5.4/socket.io.js" 
+    integrity="sha384-lix6gfYhwhgbLPheLwgmmEYQL73kK4LcFRUyt6uLa36TY0YZNWCdpidU+HX+gVXN" 
+    crossorigin="anonymous"></script>
+    <script src="/static/built/multiplayer.js" defer></script>
+{% endblock %}
+
+
+
+{% block content %}
+
+<div id="multiplayerdiv">
+        <form name="createLobbyForm" class="form">
+                <input name="lobbyName" type="text" class="form__item">
+                <button type="button" id="gobutton" class="form__item">Create Lobby</button>
+        </form>
+        <ul id="lobbyList" class="lobbyList">
+        </ul>"
+
+
+
+
+
+</div>
+
+
+{% endblock %}    
+

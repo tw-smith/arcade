@@ -26,6 +26,10 @@ html {
     color: red;
 }
 
+.text--black {
+    color: black;
+}
+
 .text--big {
     font-size: 4rem;
     margin: 2rem;
@@ -81,3 +85,13 @@ html {
 .form__item:focus:invalid {
     box-shadow: none;
 }
+
+
+
+/* Multiplayer lobby list styles */
+.lobbyList {
+    background-color: white;
+    width: 80vw;
+    height: 50vh;
+}
+

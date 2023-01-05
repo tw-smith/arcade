@@ -1,3 +1,5 @@
+import { removeChildElements } from "./utilities.js"
+
 let f = new FontFace(
   "press start",
   "url(assets/Press_Start_2P/PressStart2P-Regular.ttf)"
@@ -367,11 +369,6 @@ function startGame() {
   }
 }
 
-const removeChildElements = (parent: HTMLElement) => {
-  while (parent.lastChild) {
-    parent.removeChild(parent.lastChild);
-  }
-};
 
 async function postScore() {
   let form = document.forms["scoreForm"];

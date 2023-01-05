@@ -95,3 +95,11 @@ html {
     height: 50vh;
 }
 
+.lobbyList__item {
+    cursor: pointer;
+}
+
+.lobbyList__item:hover {
+    background-color: cyan;
+}
+

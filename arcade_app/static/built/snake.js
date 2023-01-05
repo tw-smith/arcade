@@ -7,6 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import { removeChildElements } from "./utilities.js";
 let f = new FontFace("press start", "url(assets/Press_Start_2P/PressStart2P-Regular.ttf)");
 f.load().then(function (font) {
     document.fonts.add(font);
@@ -290,11 +291,6 @@ function startGame() {
         loop();
     }
 }
-const removeChildElements = (parent) => {
-    while (parent.lastChild) {
-        parent.removeChild(parent.lastChild);
-    }
-};
 function postScore() {
     return __awaiter(this, void 0, void 0, function* () {
         let form = document.forms["scoreForm"];

@@ -4,7 +4,7 @@
     <script src="https://cdn.socket.io/4.5.4/socket.io.js" 
     integrity="sha384-lix6gfYhwhgbLPheLwgmmEYQL73kK4LcFRUyt6uLa36TY0YZNWCdpidU+HX+gVXN" 
     crossorigin="anonymous"></script>
-    <script src="/static/built/multiplayer.js" defer></script>
+    <script type="module" src="/static/built/multiplayer.js" defer></script>
 {% endblock %}
 
 
@@ -17,7 +17,8 @@
                 <button type="button" id="gobutton" class="form__item">Create Lobby</button>
         </form>
         <ul id="lobbyList" class="lobbyList">
-        </ul>"
+        </ul>
+        <button type="button" id="refreshButton" class="form__item">Refresh</button>
 
 
 

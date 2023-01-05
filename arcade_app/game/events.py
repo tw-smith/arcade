@@ -6,18 +6,6 @@ from flask_login import current_user
 import json
 
 
-# @socketio.on('connect')
-# def handlemessage(message):
-#     print("in flask socket")
-#     current_app.logger.info("in flask socket")
-#     print(message)
-
-# @socketio.on('created')
-# def create_lobby(lobbyname):
-#     emit('created', 'lobby name is ' + lobbyname, namespace='/test')
-#     return redirect(url_for('main.multiplayer'))
-
-
 @socketio.on('lobbyListRequest')
 def lobby_list_request():
     lobby_list = db.session.execute(db.select(Lobby))
@@ -25,18 +13,23 @@ def lobby_list_request():
     for r in lobby_list:
         lobby = r._asdict()['Lobby'].to_dict()
         packet.append(lobby)
-
-    #print(json.dumps(packet))
-    #result_as_dict = (lobby_list.mappings().all())
-
     socketio.emit("lobbyListReturn", json.dumps(packet))
-    # packet = []
-    # for lobby in result_as_dict:
-    #     tmp = lobby['Lobby']
-    #     print(tmp.name)
-    #     #print(lobby.name)
-    #     packet.append(tmp.name)
-    # print(jsonify(packet))
+
+@socketio.on('joinLobbyRequest')
+def join_lobby_request(data):
+    try:
+        lobby = db.session.execute(db.select(Lobby).filter_by(public_id=data['public_id'])).first()
+        if not lobby:
+            raise TypeError("No such lobby")
+        join_room(lobby[0].public_id)
+        return True
+    except:
+        return False
+
+
+
+
+
     
 
 

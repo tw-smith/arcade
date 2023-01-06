@@ -34,7 +34,7 @@ socket.on("lobbyCreated", function(data) {
     let listTest = document.createElement("p")
     listTest.innerText = "list test success";
     listTest.className = "text text--red";
-    parent.append(listTest)
+    parent.appendChild(listTest)
 })
 
 // Request/refresh lobby list
@@ -52,7 +52,7 @@ socket.on("lobbyListReturn", function(data) {
         item.addEventListener('click', function () {
             joinLobbyRequest(item.dataset.id)
         })
-        parent.append(item)
+        parent.appendChild(item)
     }
     console.log("refreshed")
 })
@@ -61,10 +61,15 @@ socket.on("lobbyListReturn", function(data) {
 // join lobby
 function joinLobbyRequest(lobby_public_id: string) {
     socket.emit('joinLobbyRequest', {'public_id': lobby_public_id}, (response) => {
-        if (response) {
-            console.log('lobby join success')
+        response = JSON.parse(response)
+        if (response.status) {
+            console.log(response.msg)
+            window.location.href = response.dest;
         } else {
-            console.log('lobby join failure')
+            let item = document.createElement("p")
+            item.innerText = response.msg
+            item.className = "text text--red" 
+            document.getElementById("multiplayer").appendChild(item)
         }
     })
 }

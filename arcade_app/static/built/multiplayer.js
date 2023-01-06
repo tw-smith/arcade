@@ -5,17 +5,16 @@ const socket = io();
 //     socket.emit('joined', {data: "typescript connected"})
 // })
 //const form = document.getElementById("createLobbyForm")
+// button.onclick = () => {
+//     socket.emit('createLobbyRequest', {"room": form.lobbyName.value})
+//     console.log('lobby requested')
+// }
+// Create lobby
 const form = document.forms[0];
 const lobbyNameField = document.getElementById("lobbyName");
 const button = document.getElementById("gobutton");
-socket.emit('lobbyListRequest');
-button.onclick = () => {
-    socket.emit('createLobbyRequest', { "room": form.lobbyName.value });
-    console.log('lobby requested');
-};
-document.getElementById("refreshButton").addEventListener('click', () => socket.emit('lobbyListRequest'));
+document.getElementById("gobutton").addEventListener('click', () => socket.emit('createLobbyRequest', { 'room': form.lobbyName.value }));
 socket.on("lobbyCreated", function (data) {
-    console.log("lobby created");
     let parent = document.getElementById("multiplayerdiv");
     while (parent.lastChild) {
         parent.removeChild(parent.lastChild);
@@ -23,9 +22,10 @@ socket.on("lobbyCreated", function (data) {
     let listTest = document.createElement("p");
     listTest.innerText = "list test success";
     listTest.className = "text text--red";
-    parent.append(listTest);
-    console.log(data);
+    parent.appendChild(listTest);
 });
+// Request/refresh lobby list
+document.getElementById("refreshButton").addEventListener('click', () => socket.emit('lobbyListRequest'));
 socket.on("lobbyListReturn", function (data) {
     let parent = document.getElementById("lobbyList");
     removeChildElements(parent);
@@ -35,18 +35,26 @@ socket.on("lobbyListReturn", function (data) {
         item.innerText = lobby.name;
         item.className = "text text--black lobbyList__item";
         item.dataset.id = lobby.public_id;
-        item.addEventListener('click', function (lobby) {
-            console.log('lobby join request' + item.dataset.id);
-            socket.emit('joinLobbyRequest', { 'public_id': item.dataset.id }, (response) => {
-                if (response) {
-                    console.log("lobby join success");
-                }
-                else {
-                    console.log("lobby join fail");
-                }
-            });
+        item.addEventListener('click', function () {
+            joinLobbyRequest(item.dataset.id);
         });
-        parent.append(item);
+        parent.appendChild(item);
     }
     console.log("refreshed");
 });
+// join lobby
+function joinLobbyRequest(lobby_public_id) {
+    socket.emit('joinLobbyRequest', { 'public_id': lobby_public_id }, (response) => {
+        response = JSON.parse(response);
+        if (response.status) {
+            console.log(response.msg);
+            window.location.href = response.dest;
+        }
+        else {
+            let item = document.createElement("p");
+            item.innerText = response.msg;
+            item.className = "text text--red";
+            document.getElementById("multiplayer").appendChild(item);
+        }
+    });
+}

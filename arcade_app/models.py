@@ -161,7 +161,6 @@ class Lobby(db.Model):
 
     def to_dict(self):
         return {
-            'id': self.id,
             'public_id': self.public_id,
             'name': self.name
         }

@@ -1,4 +1,26 @@
-2022-12-27 15:01:56,809 ERROR: Exception on /highscores [POST] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
+2022-12-28 16:29:35,276 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 17:35:06,028 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 17:36:39,105 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 17:46:38,567 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 17:54:41,686 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 17:59:34,950 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 17:59:54,925 INFO: in flask socket [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/events.py:8]
+2022-12-28 18:25:11,020 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 18:26:49,477 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 18:30:47,000 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 18:31:43,951 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 18:34:28,190 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 19:09:04,897 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 19:10:13,054 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 19:11:00,485 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 19:13:12,667 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 19:39:16,880 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 19:41:21,765 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 19:45:11,769 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 19:48:35,576 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 20:01:32,880 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 20:07:18,568 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 20:07:44,542 ERROR: Exception on /createlobby [POST] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -10,11 +32,13 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 85, in highscores
-    s = Score(current_user, score=content['score'])
-TypeError: __init__() takes 1 positional argument but 2 were given
-2022-12-27 15:04:21,621 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:04:36,490 ERROR: Exception on /highscores [POST] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 75, in createlobby
+    socketio.send()
+TypeError: SocketIO.send() missing 1 required positional argument: 'data'
+2022-12-28 20:08:12,432 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 20:16:05,192 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 22:09:44,189 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 22:10:06,465 ERROR: Exception on /createlobby [POST] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -26,11 +50,12 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 85, in highscores
-    s = Score(current_user.id, score=content['score'])
-TypeError: __init__() takes 1 positional argument but 2 were given
-2022-12-27 15:05:15,552 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:05:18,595 ERROR: Exception on /highscores [POST] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 75, in createlobby
+    current_app.socketio.emit('message',{})
+AttributeError: 'Flask' object has no attribute 'socketio'
+2022-12-28 22:29:47,380 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 22:41:50,021 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 22:42:15,074 ERROR: Exception on /createlobby [POST] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -42,18 +67,15 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 86, in highscores
-    s = Score(current_user.id, score=content['score'])
-TypeError: __init__() takes 1 positional argument but 2 were given
-2022-12-27 15:06:37,594 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:07:43,609 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:08:53,511 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:10:37,244 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:13:26,251 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:17:03,696 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:18:11,691 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:19:43,000 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:19:45,287 ERROR: Exception on /gameover [GET] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 77, in createlobby
+    create_lobby(lobbyname)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/events.py", line 13, in create_lobby
+    emit('created', {'data': lobbyname})
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_socketio/__init__.py", line 890, in emit
+    namespace = flask.request.namespace
+AttributeError: 'Request' object has no attribute 'namespace'
+2022-12-28 22:44:40,608 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]
+2022-12-28 22:44:47,201 ERROR: Exception on /createlobby [POST] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -65,44 +87,11 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 70, in gameover
-    return redirect(url_for('gameover'))
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/helpers.py", line 256, in url_for
-    return current_app.url_for(
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2031, in url_for
-    return self.handle_url_build_error(error, endpoint, values)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2020, in url_for
-    rv = url_adapter.build(  # type: ignore[union-attr]
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/werkzeug/routing/map.py", line 917, in build
-    raise BuildError(endpoint, values, method, self)
-werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'gameover'. Did you mean 'main.gameover' instead?
-2022-12-27 15:19:57,151 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:20:32,969 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:20:34,333 ERROR: Exception on /gameover [GET] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 70, in gameover
-    return render_template('gameover.html')
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/templating.py", line 147, in render_template
-    return _render(app, template, context)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/templating.py", line 130, in _render
-    rv = template.render(context)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/jinja2/environment.py", line 1301, in render
-    self.environment.handle_exception()
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/jinja2/environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/templates/gameover.html", line 1, in top-level template code
-    {% extends base.html %}
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/jinja2/environment.py", line 485, in getattr
-    return getattr(obj, attribute)
-jinja2.exceptions.UndefinedError: 'base' is undefined
-2022-12-27 15:21:05,486 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 77, in createlobby
+    create_lobby(lobbyname)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/events.py", line 13, in create_lobby
+    emit('created', 'lobby name is ' + lobbyname)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_socketio/__init__.py", line 890, in emit
+    namespace = flask.request.namespace
+AttributeError: 'Request' object has no attribute 'namespace'
+2022-12-28 22:45:48,302 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:49]

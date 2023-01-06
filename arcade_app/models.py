@@ -165,7 +165,15 @@ class Lobby(db.Model):
             'public_id': self.public_id,
             'name': self.name
         }
-        #return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
-    # def __repr__(self):
-    #     return '<Lobby {}>'.format(self.public_id)
+
+    def __repr__(self):
+         return '<Lobby {}>'.format(self.public_id)
+
+class ActiveUsers(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    player_id = db.Column(db.String(50), db.ForeignKey('mp_user.username'))
+    lobby_id = db.Column(db.String(50), db.ForeignKey('lobby.public_id'))
+
+    def __repr__(self):
+        return '<ActiveUser {}>'.format(self.player_id)

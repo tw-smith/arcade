@@ -1,12 +1,12 @@
-from flask import render_template, request, jsonify, Response, redirect, url_for, make_response, current_app
+from flask import render_template, request, jsonify, Response, redirect, url_for, make_response, current_app, flash
 from arcade_app import db, socketio
 from arcade_app.main import bp
-from arcade_app.models import Score, MPUser
+from arcade_app.models import Score, MPUser, Lobby
 import json
 from flask_login import login_required, current_user
 from arcade_app.main.forms import CreateLobbyForm
 
-@bp.after_request
+@bp.after_request #TODO do we need to add this to all other routes files?
 def add_security_headers(response):
     response.headers['Content-Security-Policy'] = "frame-ancestors: 'deny'"
     response.headers['Strict-Transport-Security'] = "max-age=31536000; includeSubDomains; preload"
@@ -57,18 +57,26 @@ def game_menu():
 
 
 
-@bp.route('/createlobby', methods=['GET','POST'])
+@bp.route('/matchmake', methods=['GET','POST'])
 @login_required
-def createlobby():
+def matchmake():
     form = CreateLobbyForm()
-    #if form.validate_on_submit():
-        # lobbyname = form.lobbyname.data
-        # print(lobbyname)
-        # create_lobby(lobbyname)
-        #return make_response(200)
-        #socketio.emit('message',{"data"},namespace='/test')
-        #return redirect(url_for('main.multiplayer'))
-    return render_template('createlobby.html', form=form)
+    lobbies = db.session.execute(db.select(Lobby)).scalars().all()
+    if form.validate_on_submit():
+        for lobby in lobbies:
+            if lobby.name == form.lobby_name.data:
+                flash("A lobby with that name already exists!")
+                return render_template('matchmake.html', form=form, lobbies=lobbies)
+        new_lobby = Lobby(name=form.lobby_name.data)
+        db.session.add(new_lobby)
+        db.session.commit()
+        return redirect(url_for('game.multiplayer_lobby', lobby_id=form.lobby_name.data ))
+    return render_template('matchmake.html', form=form, lobbies=lobbies)
+
+
+
+
+
 
 @bp.route('/gameover', methods=['GET'])
 @login_required

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<ul class="lobbyList">
+        {% for lobby in lobbies %}
+                <li>
+                        <a class="lobbyList__item text text--black" href={{ url_for('game.multiplayer_lobby', lobby_id=lobby.public_id) }}>{{ lobby.name }}</a>
+                </li>
+                <!-- <li class="lobbyList__item text text--black" data-id={{ lobby.public_id }}>{{ lobby.name }}</li> -->
+        {% endfor %}
+</ul>
+
+<form name="lobbyForm" class="form" action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        {{ form.lobby_name(class_="form__item") }}
+        {% for error in form.lobby_name.errors %}
+            <p class="text__formerror">{{ error }}</p>
+        {% endfor %}
+        {{ form.submit(class="form__item") }}
+        <!-- TODO refresh button-->
+</form>
+<button type="button" class="form__item" onclick="window.location.reload()">Refresh</button>
+{% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+            <h3 class="text text--red">{{ message }}</h3>
+        {% endfor %}
+        {% endif %}
+{% endwith %}
+
+{% endblock %}    
+

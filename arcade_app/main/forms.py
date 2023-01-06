@@ -7,7 +7,7 @@ class HighScoreForm(FlaskForm):
     submit = SubmitField('Submit Score')
 
 class CreateLobbyForm(FlaskForm):
-    lobbyname = StringField('Name', validators=[DataRequired()])
-    submit = SubmitField('Enter')
+    lobby_name = StringField('Name', validators=[DataRequired()])
+    submit = SubmitField('Create Lobby')
                                                           
 

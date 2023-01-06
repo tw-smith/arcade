@@ -1,18 +1,46 @@
 from flask_socketio import emit, join_room, leave_room, rooms
 from arcade_app import socketio, db
-from flask import current_app, url_for, redirect, make_response, jsonify
+from flask import current_app, url_for, redirect, make_response, jsonify, session
 from arcade_app.models import Lobby, ActiveUsers
 from flask_login import current_user
 import json
 
 
-@socketio.on('lobbyListRequest')
-def lobby_list_request():
-    packet = []
-    lobby_list = db.session.execute(db.select(Lobby)).scalars().all()
-    for lobby in lobby_list:
-        packet.append(lobby.to_dict())
-    socketio.emit('lobbyListReturn', json.dumps(packet))
+
+
+@socketio.on('connect')
+def join_lobby():
+    join_room(session.get('lobby_id'))
+    refresh_player_list(session.get('lobby_id'))
+    print(type(current_user))
+
+@socketio.on('disconnect')
+def leave_lobby():
+    leave_room(session.get('lobby_id'))
+    print("disconnect event")
+    active_user = db.session.execute(db.select(ActiveUsers).filter_by(player_id=current_user.username)).first()
+    print(active_user)
+    db.session.delete(active_user)
+    db.session.commit()
+
+
+    
+    
+
+
+
+def refresh_player_list(lobby_id):
+    players = []
+    for player in db.session.execute(db.select(ActiveUsers).filter_by(lobby_id=lobby_id)).scalars().all():
+        players.append({'id': player.id, 'name': player.player_id})
+    socketio.emit('refreshPlayerList', json.dumps(players), to=lobby_id)
+    
+
+
+
+
+
+
 
 
 @socketio.on('joinLobbyRequest')

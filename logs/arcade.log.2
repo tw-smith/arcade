@@ -1,7 +1,4 @@
-2023-01-06 15:47:54,028 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 15:48:37,175 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 15:49:38,972 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 15:49:46,863 ERROR: Exception on /multiplayer/9c9b6be7-7e53-42fa-93a1-3018dcc8726e/ [GET] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
+2023-01-09 09:24:37,148 ERROR: Exception on /matchmake [GET] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -11,43 +8,70 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-TypeError: multiplayer_lobby() got an unexpected keyword argument 'lobby'
-2023-01-06 15:51:08,996 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 15:51:15,496 ERROR: Exception on /multiplayer/lobby/0bcf6770-3e9a-40ae-9cf2-193da1328f44/ [GET] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
-    return self.finalize_request(rv)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1842, in finalize_request
-    response = self.make_response(rv)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2134, in make_response
-    raise TypeError(
-TypeError: The view function for 'game.multiplayer_lobby' did not return a valid response. The function either returned None or ended without a return statement.
-2023-01-06 15:51:57,855 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 15:53:00,065 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 16:17:57,202 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 16:19:47,160 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 16:22:49,376 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 16:39:50,113 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 16:40:46,040 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 16:41:39,801 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 16:42:17,044 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 16:51:09,806 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 16:52:16,301 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 16:54:21,186 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 17:01:56,484 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 17:05:03,264 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 17:11:46,934 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 17:12:59,739 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 17:24:21,316 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 17:28:56,079 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-09 08:39:42,865 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-09 08:42:52,092 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-09 08:44:12,163 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-09 09:05:33,811 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-09 09:24:02,971 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-09 09:24:14,476 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-09 09:24:30,929 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/utils.py", line 284, in decorated_view
+    elif not current_user.is_authenticated:
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/werkzeug/local.py", line 316, in __get__
+    obj = instance._get_current_object()  # type: ignore[misc]
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/werkzeug/local.py", line 520, in _get_current_object
+    return get_name(local())  # type: ignore
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/utils.py", line 25, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/utils.py", line 372, in _get_user
+    current_app.login_manager._load_user()
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/models.py", line 14, in load_user
+    user = db.session.execute(db.select(MPUser).filter_by(public_id=public_id)).first()
+  File "<string>", line 2, in execute
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 1714, in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 334, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1564, in _execute_clauseelement
+    compiled_sql, extracted_params, cache_hit = elem._compile_w_cache(
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 532, in _compile_w_cache
+    compiled_sql = self._compiler(
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 567, in _compiler
+    return dialect.statement_compiler(dialect, self, **kw)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/sql/compiler.py", line 804, in __init__
+    Compiled.__init__(self, dialect, statement, **kwargs)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/sql/compiler.py", line 463, in __init__
+    self.string = self.process(self.statement, **compile_kwargs)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/sql/compiler.py", line 498, in process
+    return obj._compiler_dispatch(self, **kwargs)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/sql/visitors.py", line 82, in _compiler_dispatch
+    return meth(self, **kw)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/sql/compiler.py", line 3317, in visit_select
+    compile_state = select_stmt._compile_state_factory(
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/sql/base.py", line 510, in create_for_statement
+    return klass.create_for_statement(statement, compiler, **kw)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 701, in create_for_statement
+    _QueryEntity.to_compile_state(
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 2458, in to_compile_state
+    _MapperEntity(
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 2531, in __init__
+    entity._post_inspect
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 1184, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/mapper.py", line 2199, in _post_inspect
+    self._check_configure()
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/mapper.py", line 1941, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/mapper.py", line 3527, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/mapper.py", line 3566, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/mapper.py", line 1958, in _post_configure_properties
+    prop.init()
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/interfaces.py", line 231, in init
+    self.do_init()
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/relationships.py", line 2150, in do_init
+    self._generate_backref()
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/relationships.py", line 2430, in _generate_backref
+    raise sa_exc.ArgumentError(
+sqlalchemy.exc.ArgumentError: Error creating backref 'player_id' on relationship 'MPUser.active_user': property of that name exists on mapper 'mapped class ActiveUsers->active_users'
+2023-01-09 09:26:25,360 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-09 09:26:30,691 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-09 09:26:33,593 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]

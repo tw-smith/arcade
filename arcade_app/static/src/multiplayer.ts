@@ -7,7 +7,14 @@ const socket = io()
 
 
 
-document.getElementById("leaveLobby").addEventListener('click', leaveLobbyRequest)
+document.getElementById("leaveLobby").addEventListener('click', () => {
+    console.log("requested lobby leave")
+    leaveLobbyRequest()
+})
+
+document.getElementById("playerReady").addEventListener('click', () => {
+    socket.emit('playerReadyToggle')
+})
 
 function getLobbyID() {
     const params = new URLSearchParams(window.location.search);
@@ -29,9 +36,15 @@ socket.on('connect', () => {
 socket.on('refreshPlayerList', (players) => {
     players = JSON.parse(players)
     let list = document.getElementById("playerList")
+    removeChildElements(list)
     players.forEach(player => {
         let li = document.createElement("li");
         li.innerText = player.name;
+        if (player.ready) {
+            li.className = "text text--green"
+        } else {
+            li.className = "text text--red"
+        }
         list.appendChild(li);
     })
 })
@@ -58,17 +71,16 @@ function joinLobbyRequest(lobby_public_id: string) {
     })
 }
 
+socket.on('redirect', (dest) => {
+    window.location.href = dest;
+});
+
+
+
 // leave  lobby
 function leaveLobbyRequest() {
-    const lobby_id = getLobbyID();
-    socket.emit('leaveLobbyRequest', {'public_id': lobby_id}, (response) => {
-        response = JSON.parse(response)
-        if (response.status) {
-            console.log("left lobby")
-        } else {
-            console.log("some error in leaving lobby")
-        }
-    })
+    console.log("emitting lobby leave request...")
+    socket.emit('leaveLobbyRequest')
 }
 
 

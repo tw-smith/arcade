@@ -1,41 +1,4 @@
-2023-01-06 11:24:36,106 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 14:59:02,819 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 14:59:14,128 ERROR: Exception on /matchmake [GET] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 74, in matchmake
-    return render_template('matchmake.html', form=form, lobbies=lobbies)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/templating.py", line 147, in render_template
-    return _render(app, template, context)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/templating.py", line 130, in _render
-    rv = template.render(context)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/jinja2/environment.py", line 1301, in render
-    self.environment.handle_exception()
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/jinja2/environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/templates/matchmake.html", line 1, in top-level template code
-    {% extends "base.html" %}
-  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/templates/base.html", line 13, in top-level template code
-    {% block content %}{% endblock %}
-  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/templates/matchmake.html", line 13, in block 'content'
-    {{ form.lobbyname(class_="form__item") }}
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/jinja2/utils.py", line 83, in from_obj
-    if hasattr(obj, "jinja_pass_arg"):
-jinja2.exceptions.UndefinedError: 'arcade_app.main.forms.CreateLobbyForm object' has no attribute 'lobbyname'
-2023-01-06 14:59:58,042 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 15:04:41,876 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 15:08:52,442 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 15:12:05,483 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
-2023-01-06 15:12:20,824 ERROR: Exception on /matchmake [POST] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
+2023-01-06 15:15:36,634 ERROR: Exception on /matchmake [POST] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1900, in _execute_context
     self.dialect.do_execute(
@@ -56,7 +19,7 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 71, in matchmake
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 73, in matchmake
     db.session.commit()
   File "<string>", line 2, in commit
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 1451, in commit
@@ -101,6 +64,56 @@ Traceback (most recent call last):
     cursor.execute(statement, parameters)
 sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: lobby.name
 [SQL: INSERT INTO lobby (public_id, name) VALUES (?, ?)]
-[parameters: ('01e08b78-fa43-43dd-b363-332e94d072de', 'whiteway')]
+[parameters: ('507359c7-5a70-4352-b76d-423b6a00bedd', 'whiteway')]
 (Background on this error at: https://sqlalche.me/e/14/gkpj)
-2023-01-06 15:15:14,245 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-06 15:16:52,866 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-06 15:17:05,497 ERROR: Exception on /matchmake [POST] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 68, in matchmake
+    print(lobbies.name)
+AttributeError: 'list' object has no attribute 'name'
+2023-01-06 15:19:21,888 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-06 15:19:31,723 ERROR: Exception on /matchmake [POST] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 69, in matchmake
+    return render_template('matchmake.html')
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/templating.py", line 147, in render_template
+    return _render(app, template, context)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/templating.py", line 130, in _render
+    rv = template.render(context)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/jinja2/environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/templates/matchmake.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/templates/base.html", line 13, in top-level template code
+    {% block content %}{% endblock %}
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/templates/matchmake.html", line 12, in block 'content'
+    {{ form.hidden_tag() }}
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/jinja2/environment.py", line 485, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'form' is undefined
+2023-01-06 15:20:06,328 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-06 15:23:10,649 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-06 15:47:13,470 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]

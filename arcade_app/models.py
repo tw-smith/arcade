@@ -45,6 +45,7 @@ class MPUser(db.Model):
     password_hash = db.Column(db.String(128))
     verified = db.Column(db.Boolean(1))
     scores = db.relationship('Score', backref='player', lazy='dynamic')
+    active_user = db.relationship('ActiveUsers', backref='user', lazy='dynamic')
 
     def __init__(self, username, email, password):
         self.username = username
@@ -154,6 +155,7 @@ class Lobby(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     public_id = db.Column(db.String(50), unique=True, index=True)
     name = db.Column(db.String(50), unique=True)
+    active_user = db.relationship('ActiveUsers', backref='lobby', lazy='dynamic')
 
     def __init__(self, name):
         self.public_id = str(uuid.uuid4())

@@ -18,9 +18,10 @@ def join_lobby():
 def leave_lobby():
     leave_room(session.get('lobby_id'))
     print("disconnect event")
-    active_user = db.session.execute(db.select(ActiveUsers).filter_by(player_id=current_user.username)).first()
+    active_user = db.session.execute(db.select(ActiveUsers).filter_by(player_id=current_user.username)).scalars().first()
     print(active_user)
-    db.session.delete(active_user)
+    print(type(active_user))
+    db.session.delete(active_user) #TODO error here
     db.session.commit()
 
 
@@ -85,10 +86,10 @@ def success(data):
     print("LOBBY CREATED")
     socketio.emit("lobbyCreated", {"lobbyname": room, "public_id": lobby.public_id}, to=lobby.public_id)
 
-@socketio.on('disconnect')
-def disconnect():
-    for room in rooms():
-        leave_room(room)
+# @socketio.on('disconnect')
+# def disconnect():
+#     for room in rooms():
+#         leave_room(room)
 
 
 

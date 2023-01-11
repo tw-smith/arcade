@@ -22,6 +22,21 @@ function getLobbyID() {
     return lobby_id
 }
 
+function startGameRequest() {
+    socket.emit("startGameRequest")
+    console.log("game started")
+}
+
+socket.on('startGame', () => {
+    let num = 5;
+    let timer = setInterval(() => {
+        document.getElementById("countdown").innerHTML = num.toString();
+        num -= 1;
+        if (num == 0) {
+            clearInterval(timer)
+        }
+    }, 1000)
+});
 
 
 // get lobby ID on connect
@@ -31,11 +46,23 @@ socket.on('connect', () => {
 })
 
 
-
+socket.on('assignHost', () => {
+    const startButton = document.createElement("button")
+    startButton.innerText = "Start";
+    startButton.className = "form__item";
+    startButton.id = "startButton";
+    startButton.disabled = true;
+    startButton.addEventListener('click', () => {
+        startGameRequest()
+    })
+    document.getElementById("lobbyControls").appendChild(startButton)
+})
 
 socket.on('refreshPlayerList', (players) => {
     players = JSON.parse(players)
     let list = document.getElementById("playerList")
+    let startButton = document.getElementById("startButton") as HTMLButtonElement //TODO throws null error is client is not host
+    let lobbyReady = [];
     removeChildElements(list)
     players.forEach(player => {
         let li = document.createElement("li");
@@ -46,7 +73,11 @@ socket.on('refreshPlayerList', (players) => {
             li.className = "text text--red"
         }
         list.appendChild(li);
+        lobbyReady.push(player.ready)
     })
+    if (lobbyReady.every(el => el === true)) {
+        startButton.disabled = false;
+    }
 })
 
 

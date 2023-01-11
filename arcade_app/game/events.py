@@ -94,7 +94,10 @@ def player_ready_toggle():
      db.session.commit()
      get_player_list(session.get('lobby_id'))
 
-
+@socketio.on("startGameRequest")
+def start_game():
+    #TODO check that request has come from the actual host?
+    socketio.emit("startGame", to=session.get('lobby_id'))
 
 
 

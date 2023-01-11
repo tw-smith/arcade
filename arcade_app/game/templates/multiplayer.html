@@ -1,16 +1,11 @@
 {% extends "base.html" %}
-
-
-
-
+{% block head %}
+    {{ super () }}
+    <link href="/static/snakegame.css" rel="stylesheet">
+    <script type="module" src="/static/built/snake.js" defer></script>
+{% endblock %}
 {% block content %}
+<div id="container">
 
-
-
-<h2>multiplayer lobby</h2>
-
-
-
-
-{% endblock %}    
-
+</div>
+{% endblock %}

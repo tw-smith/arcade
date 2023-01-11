@@ -1,4 +1,5 @@
 import { removeChildElements } from "./utilities.js"
+import { renderGame } from "./rendergame.js"
 
 declare const io: any
 const socket = io()
@@ -34,6 +35,7 @@ socket.on('startGame', () => {
         num -= 1;
         if (num == 0) {
             clearInterval(timer)
+            renderGame()
         }
     }, 1000)
 });

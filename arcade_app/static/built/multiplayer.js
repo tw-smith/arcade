@@ -1,4 +1,5 @@
 import { removeChildElements } from "./utilities.js";
+import { renderGame } from "./rendergame.js";
 const socket = io();
 document.getElementById("leaveLobby").addEventListener('click', () => {
     console.log("requested lobby leave");
@@ -23,6 +24,7 @@ socket.on('startGame', () => {
         num -= 1;
         if (num == 0) {
             clearInterval(timer);
+            renderGame();
         }
     }, 1000);
 });
@@ -45,7 +47,7 @@ socket.on('assignHost', () => {
 socket.on('refreshPlayerList', (players) => {
     players = JSON.parse(players);
     let list = document.getElementById("playerList");
-    let startButton = document.getElementById("startButton");
+    let startButton = document.getElementById("startButton"); //TODO throws null error is client is not host
     let lobbyReady = [];
     removeChildElements(list);
     players.forEach(player => {

@@ -1,4 +1,6 @@
-2022-12-27 15:01:56,809 ERROR: Exception on /highscores [POST] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
+2023-01-06 11:24:36,106 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-06 14:59:02,819 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-06 14:59:14,128 ERROR: Exception on /matchmake [GET] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -10,88 +12,8 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 85, in highscores
-    s = Score(current_user, score=content['score'])
-TypeError: __init__() takes 1 positional argument but 2 were given
-2022-12-27 15:04:21,621 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:04:36,490 ERROR: Exception on /highscores [POST] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 85, in highscores
-    s = Score(current_user.id, score=content['score'])
-TypeError: __init__() takes 1 positional argument but 2 were given
-2022-12-27 15:05:15,552 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:05:18,595 ERROR: Exception on /highscores [POST] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 86, in highscores
-    s = Score(current_user.id, score=content['score'])
-TypeError: __init__() takes 1 positional argument but 2 were given
-2022-12-27 15:06:37,594 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:07:43,609 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:08:53,511 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:10:37,244 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:13:26,251 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:17:03,696 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:18:11,691 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:19:43,000 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:19:45,287 ERROR: Exception on /gameover [GET] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 70, in gameover
-    return redirect(url_for('gameover'))
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/helpers.py", line 256, in url_for
-    return current_app.url_for(
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2031, in url_for
-    return self.handle_url_build_error(error, endpoint, values)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2020, in url_for
-    rv = url_adapter.build(  # type: ignore[union-attr]
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/werkzeug/routing/map.py", line 917, in build
-    raise BuildError(endpoint, values, method, self)
-werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'gameover'. Did you mean 'main.gameover' instead?
-2022-12-27 15:19:57,151 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:20:32,969 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
-2022-12-27 15:20:34,333 ERROR: Exception on /gameover [GET] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 70, in gameover
-    return render_template('gameover.html')
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 74, in matchmake
+    return render_template('matchmake.html', form=form, lobbies=lobbies)
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/templating.py", line 147, in render_template
     return _render(app, template, context)
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/templating.py", line 130, in _render
@@ -100,9 +22,85 @@ Traceback (most recent call last):
     self.environment.handle_exception()
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/jinja2/environment.py", line 936, in handle_exception
     raise rewrite_traceback_stack(source=source)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/templates/gameover.html", line 1, in top-level template code
-    {% extends base.html %}
-  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/jinja2/environment.py", line 485, in getattr
-    return getattr(obj, attribute)
-jinja2.exceptions.UndefinedError: 'base' is undefined
-2022-12-27 15:21:05,486 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:47]
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/templates/matchmake.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/templates/base.html", line 13, in top-level template code
+    {% block content %}{% endblock %}
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/templates/matchmake.html", line 13, in block 'content'
+    {{ form.lobbyname(class_="form__item") }}
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/jinja2/utils.py", line 83, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+jinja2.exceptions.UndefinedError: 'arcade_app.main.forms.CreateLobbyForm object' has no attribute 'lobbyname'
+2023-01-06 14:59:58,042 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-06 15:04:41,876 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-06 15:08:52,442 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-06 15:12:05,483 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-06 15:12:20,824 ERROR: Exception on /matchmake [POST] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1900, in _execute_context
+    self.dialect.do_execute(
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.IntegrityError: UNIQUE constraint failed: lobby.name
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/main/routes.py", line 71, in matchmake
+    db.session.commit()
+  File "<string>", line 2, in commit
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 1451, in commit
+    self._transaction.commit(_to_root=self.future)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 829, in commit
+    self._prepare_impl()
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 808, in _prepare_impl
+    self.session.flush()
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 3444, in flush
+    self._flush(objects)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 3583, in _flush
+    with util.safe_reraise():
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/util/compat.py", line 210, in raise_
+    raise exception
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 3544, in _flush
+    flush_context.execute()
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/unitofwork.py", line 456, in execute
+    rec.execute(self)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/unitofwork.py", line 630, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/persistence.py", line 245, in save_obj
+    _emit_insert_statements(
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/persistence.py", line 1238, in _emit_insert_statements
+    result = connection._execute_20(
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 334, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1572, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1943, in _execute_context
+    self._handle_dbapi_exception(
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2124, in _handle_dbapi_exception
+    util.raise_(
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/util/compat.py", line 210, in raise_
+    raise exception
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1900, in _execute_context
+    self.dialect.do_execute(
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: lobby.name
+[SQL: INSERT INTO lobby (public_id, name) VALUES (?, ?)]
+[parameters: ('01e08b78-fa43-43dd-b363-332e94d072de', 'whiteway')]
+(Background on this error at: https://sqlalche.me/e/14/gkpj)
+2023-01-06 15:15:14,245 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]

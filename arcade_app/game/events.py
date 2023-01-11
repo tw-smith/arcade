@@ -41,7 +41,12 @@ def get_player_list(lobby_id):
 @socketio.on('connect')
 def join_lobby():
     join_room(session.get('lobby_id'))
+    #print(current_user.active_user)
+    if db.session.execute(db.select(ActiveUsers).filter_by(player_id=current_user.username)).scalars().first().is_host:
+        emit('assignHost')
+        print('assignhost')
     get_player_list(session.get('lobby_id'))
+
 
 @socketio.on('disconnect')
 def disconnect():

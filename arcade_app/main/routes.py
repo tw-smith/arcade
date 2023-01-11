@@ -70,7 +70,7 @@ def matchmake():
         new_lobby = Lobby(name=form.lobby_name.data)
         db.session.add(new_lobby)
         db.session.commit()
-        return redirect(url_for('game.multiplayer_lobby', lobby_id=form.lobby_name.data ))
+        return redirect(url_for('game.multiplayer_lobby', lobby_id=new_lobby.public_id, is_host=True))
     return render_template('matchmake.html', form=form, lobbies=lobbies)
 
 

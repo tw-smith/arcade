@@ -176,6 +176,8 @@ class ActiveUsers(db.Model):
     player_id = db.Column(db.String(50), db.ForeignKey('mp_user.username'))
     lobby_id = db.Column(db.String(50), db.ForeignKey('lobby.public_id'))
     ready = db.Column(db.Boolean, unique=False, default=False)
+    is_host = db.Column(db.Boolean, unique=False, default=False)
+    
 
     def __repr__(self):
         return '<ActiveUser {}>'.format(self.player_id)

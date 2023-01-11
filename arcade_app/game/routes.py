@@ -16,7 +16,7 @@ def singleplayer():
 
 @bp.route('/multiplayer/lobby/', methods=['GET'])
 @login_required
-def multiplayer_lobby():
+def multiplayer_lobby(is_host=False):
     session['lobby_id'] = request.args.get('lobby_id')
     lobby = db.session.execute(db.select(Lobby).filter_by(public_id=session.get('lobby_id'))).first()
     if not lobby:
@@ -26,7 +26,7 @@ def multiplayer_lobby():
     if number_players >= 2:
         flash('Lobby full!')
         return redirect(url_for('main.matchmake'))
-    new_active_user = ActiveUsers(player_id=current_user.username, lobby_id=session.get('lobby_id'))
+    new_active_user = ActiveUsers(player_id=current_user.username, lobby_id=session.get('lobby_id'), is_host=is_host)
     db.session.add(new_active_user)
     db.session.commit()
     return render_template('lobby.html')

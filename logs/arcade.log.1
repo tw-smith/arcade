@@ -1,4 +1,4 @@
-2023-01-11 15:05:42,647 ERROR: Exception on /multiplayer/lobby/ [GET] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
+2023-01-11 15:09:37,595 ERROR: Exception on /multiplayer/lobby/ [GET] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1800, in _execute_context
     context = constructor(
@@ -25,7 +25,7 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/game/routes.py", line 41, in multiplayer_lobby
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/game/routes.py", line 43, in multiplayer_lobby
     db.session.commit()
   File "<string>", line 2, in commit
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 1451, in commit
@@ -76,5 +76,38 @@ Traceback (most recent call last):
     raise TypeError("Not a boolean value: %r" % (value,))
 sqlalchemy.exc.StatementError: (builtins.TypeError) Not a boolean value: 'True'
 [SQL: INSERT INTO active_users (player_id, lobby_id, ready, is_host) VALUES (?, ?, ?, ?)]
-[parameters: [{'lobby_id': '174e3147-9483-4bb1-b4b9-5b797ca734e0', 'player_id': 'testuser', 'is_host': 'True'}]]
-2023-01-11 15:09:31,458 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+[parameters: [{'is_host': 'True', 'lobby_id': '174e3147-9483-4bb1-b4b9-5b797ca734e0', 'player_id': 'testuser'}]]
+2023-01-11 15:15:32,178 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-11 15:26:19,368 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-11 15:28:02,743 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-11 15:40:02,430 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-11 15:47:44,018 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-11 16:24:46,187 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-11 17:31:20,724 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-11 17:35:05,997 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-11 17:37:33,581 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-11 17:43:02,959 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-12 17:27:39,368 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-12 17:43:02,745 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-12 17:43:55,693 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-12 17:50:03,200 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]
+2023-01-12 17:50:32,000 ERROR: Exception on /auth/login [POST] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/auth/routes.py", line 21, in login
+    if not user or not user[0].check_password(form.password.data):
+  File "/Users/durness/Documents/Coding/GitHub/arcade/arcade_app/models.py", line 137, in check_password
+    check = ph.verify(self.password_hash, password)
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/argon2/_password_hasher.py", line 214, in verify
+    return verify_secret(
+  File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/argon2/low_level.py", line 210, in verify_secret
+    raise VerifyMismatchError(error_to_str(rv))
+argon2.exceptions.VerifyMismatchError: The password does not match the supplied hash
+2023-01-12 17:58:13,262 INFO: Arcade startup [in /Users/durness/Documents/Coding/GitHub/arcade/arcade_app/__init__.py:52]

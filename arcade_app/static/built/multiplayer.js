@@ -1,6 +1,10 @@
 import { removeChildElements } from "./utilities.js";
 import { renderGame } from "./rendergame.js";
-const socket = io();
+import { socket } from "./socket.js";
+import { startGame } from "./snake_mp.js";
+// declare const io: any
+// const socket = io()
+let role = 'client';
 document.getElementById("leaveLobby").addEventListener('click', () => {
     console.log("requested lobby leave");
     leaveLobbyRequest();
@@ -25,6 +29,7 @@ socket.on('startGame', () => {
         if (num == 0) {
             clearInterval(timer);
             renderGame();
+            startGame(role);
         }
     }, 1000);
 });
@@ -34,6 +39,7 @@ socket.on('connect', () => {
     console.log(getLobbyID());
 });
 socket.on('assignHost', () => {
+    role = 'host';
     const startButton = document.createElement("button");
     startButton.innerText = "Start";
     startButton.className = "form__item";

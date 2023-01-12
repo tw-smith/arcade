@@ -1,6 +1,6 @@
 from flask_socketio import emit, join_room, leave_room, rooms, close_room
 from arcade_app import socketio, db
-from flask import current_app, url_for, redirect, make_response, jsonify, session
+from flask import current_app, url_for, redirect, make_response, jsonify, session, request
 from arcade_app.models import Lobby, ActiveUsers
 from flask_login import current_user
 import json
@@ -97,7 +97,19 @@ def player_ready_toggle():
 @socketio.on("startGameRequest")
 def start_game():
     #TODO check that request has come from the actual host?
+
     socketio.emit("startGame", to=session.get('lobby_id'))
+
+# ACTUAL GAME EVENTS
+# @socketio.on('initHostUpdate')
+# def host_update(data):
+#     socketio.emit('gameUpdate', to=session.get('lobby_id'))
+
+
+
+@socketio.on('updateParams')
+def update_params(data):
+    socketio.emit('updateParams', data, to=session.get('lobby_id'), skip_sid=request.sid)
 
 
 

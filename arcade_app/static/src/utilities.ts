@@ -3,3 +3,7 @@ export const removeChildElements = (parent: HTMLElement) => {
       parent.removeChild(parent.lastChild);
     }
   };
+
+  export function randomIntRange(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min) + min);
+  }

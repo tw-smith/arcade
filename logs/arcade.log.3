@@ -1,4 +1,4 @@
-2023-01-11 15:04:20,420 ERROR: Exception on /multiplayer/lobby/ [GET] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
+2023-01-11 15:04:55,500 ERROR: Exception on /multiplayer/lobby/ [GET] [in /Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1800, in _execute_context
     context = constructor(
@@ -10,7 +10,7 @@ Traceback (most recent call last):
     value = _strict_as_bool(value)
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/sql/sqltypes.py", line 1975, in _strict_as_bool
     raise TypeError("Not a boolean value: %r" % (value,))
-TypeError: Not a boolean value: 'true'
+TypeError: Not a boolean value: 'True'
 
 The above exception was the direct cause of the following exception:
 
@@ -74,6 +74,6 @@ Traceback (most recent call last):
     value = _strict_as_bool(value)
   File "/Users/durness/Documents/Coding/GitHub/arcade/venv/lib/python3.10/site-packages/sqlalchemy/sql/sqltypes.py", line 1975, in _strict_as_bool
     raise TypeError("Not a boolean value: %r" % (value,))
-sqlalchemy.exc.StatementError: (builtins.TypeError) Not a boolean value: 'true'
+sqlalchemy.exc.StatementError: (builtins.TypeError) Not a boolean value: 'True'
 [SQL: INSERT INTO active_users (player_id, lobby_id, ready, is_host) VALUES (?, ?, ?, ?)]
-[parameters: [{'lobby_id': '6b80ea49-2b54-463d-b7b4-d7546b6c6e1b', 'player_id': 'toby', 'is_host': 'true'}]]
+[parameters: [{'lobby_id': '6b80ea49-2b54-463d-b7b4-d7546b6c6e1b', 'player_id': 'toby', 'is_host': 'True'}]]

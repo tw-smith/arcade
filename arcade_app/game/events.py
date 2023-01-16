@@ -107,7 +107,7 @@ def start_game():
 
 
 
-@socketio.on('updateParams')
+@socketio.on('updateParameters')
 def update_params(data):
     socketio.emit('updateParams', data, to=session.get('lobby_id'), skip_sid=request.sid)
 

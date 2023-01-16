@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { removeChildElements, randomIntRange } from "./utilities.js";
 export class gameParameters {
-    constructor(render_rate) {
+    constructor(render_rate, rampSpeed) {
         this.BACKGROUND_COLOUR = "black";
         this.SNAKE_COLOUR = "white";
         this.SNAKE_HEAD_COLOUR = "green";
@@ -17,12 +17,13 @@ export class gameParameters {
         this.score = 0;
         this.oppo_score = 0;
         this.render_rate = render_rate;
+        this.RAMP_SPEED = rampSpeed;
     }
     increase_score(score_increase) {
         this.score += score_increase;
     }
-    increase_speed(ramp_rate) {
-        this.render_rate += ramp_rate;
+    increase_speed() {
+        this.render_rate += this.RAMP_SPEED;
     }
     gameOver(modal) {
         this.gameOverFlag = true;
@@ -184,36 +185,38 @@ export class Snake {
         let newSegment = new gameElement(position.x, position.y, this.SNAKE_SIZE, this.SNAKE_SIZE, this.SNAKE_COLOUR);
         this.segments.push(newSegment);
     }
-    move() {
-        switch (this.direction) {
-            case "up":
-                if (this.nextY != 1) {
-                    this.nextX = 0;
-                    this.nextY = -1;
+    move(direction = undefined) {
+        if (direction != undefined) {
+            switch (direction) {
+                case "up":
+                    if (this.nextY != 1) {
+                        this.nextX = 0;
+                        this.nextY = -1;
+                        break;
+                    }
                     break;
-                }
-                break;
-            case "down":
-                if (this.nextY != -1) {
-                    this.nextX = 0;
-                    this.nextY = 1;
+                case "down":
+                    if (this.nextY != -1) {
+                        this.nextX = 0;
+                        this.nextY = 1;
+                        break;
+                    }
                     break;
-                }
-                break;
-            case "left":
-                if (this.nextX != 1) {
-                    this.nextX = -1;
-                    this.nextY = 0;
+                case "left":
+                    if (this.nextX != 1) {
+                        this.nextX = -1;
+                        this.nextY = 0;
+                        break;
+                    }
                     break;
-                }
-                break;
-            case "right":
-                if (this.nextX != -1) {
-                    this.nextX = 1;
-                    this.nextY = 0;
+                case "right":
+                    if (this.nextX != -1) {
+                        this.nextX = 1;
+                        this.nextY = 0;
+                        break;
+                    }
                     break;
-                }
-                break;
+            }
         }
         // move snake
         this.segments.pop(); //remove tail - // TODO: check if this prevents a collision detection with final tail segment

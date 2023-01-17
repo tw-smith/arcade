@@ -1,4 +1,4 @@
-import { gameParameters, Food, Snake } from "./classes.js";
+import { GameParameters, Food, Snake } from "./classes.js";
 import { socket } from "./socket.js";
 export function startGame(role) {
     const SNAKE_COLOUR = "white";
@@ -10,12 +10,21 @@ export function startGame(role) {
     canvas.width = 600;
     canvas.height = 600;
     let gameModal;
-    let game = new gameParameters(3, RAMP_SPEED);
+    let game = new GameParameters(3, RAMP_SPEED);
     let snakes = assign_snakes(role, game);
     let food = new Food();
+    if (role == 'client') {
+        food.x = undefined;
+        food.y = undefined;
+    }
     addGameControls(snakes.snake);
     socket.on('updateParams', (data) => {
-        recieveUpdatedParameters(data, snakes.oppo_snake, game, food);
+        snakes.oppo_snake = recieveUpdatedSnake(data, snakes.oppo_snake);
+        game = recieveUpdatedGame(data, game);
+        if ('food' in data) {
+            food = recieveUpdatedFood(data, food);
+        }
+        // recieveUpdatedParameters(data, snakes.oppo_snake, game, food)
     });
     sendUpdatedParameters(role, snakes.snake, game, food);
     gameLoop(role, snakes, game, food, canvas);
@@ -42,23 +51,23 @@ function assign_snakes(role, game) {
 }
 function addGameControls(snake) {
     document.addEventListener("keydown", parseKeyInput);
-    document.getElementById("upButton").addEventListener("click", snake.move("up"));
-    document.getElementById("downButton").addEventListener("click", snake.move("down"));
-    document.getElementById("leftButton").addEventListener("click", snake.move("left"));
-    document.getElementById("rightButton").addEventListener("click", snake.move("right"));
+    document.getElementById("upButton").addEventListener("click", snake.changeDirection("up"));
+    document.getElementById("downButton").addEventListener("click", snake.changeDirection("down"));
+    document.getElementById("leftButton").addEventListener("click", snake.changeDirection("left"));
+    document.getElementById("rightButton").addEventListener("click", snake.changeDirection("right"));
     function parseKeyInput(e) {
         switch (e.key) {
             case "a":
-                snake.move("left");
+                snake.changeDirection("left");
                 break;
             case "w":
-                snake.move("up");
+                snake.changeDirection("up");
                 break;
             case "d":
-                snake.move("right");
+                snake.changeDirection("right");
                 break;
             case "s":
-                snake.move("down");
+                snake.changeDirection("down");
                 break;
         }
     }
@@ -68,11 +77,13 @@ function sendUpdatedParameters(role, snake, game, food) {
         'snake': snake,
         'gameOver': game.gameOverFlag,
         'score': game.score,
-        'food': food
     };
+    if (role == 'host') {
+        Object.assign(packet, { 'food': food });
+    }
     socket.emit('updateParameters', packet);
 }
-function recieveUpdatedParameters(data, oppo_snake, game, food) {
+function recieveUpdatedSnake(data, oppo_snake) {
     oppo_snake.segments = [];
     for (let i = 0; i < data.snake.segments.length; i++) {
         oppo_snake.addSegment({
@@ -80,14 +91,33 @@ function recieveUpdatedParameters(data, oppo_snake, game, food) {
             y: data.snake.segments[i].y,
         });
     }
-    ;
+    return oppo_snake;
+}
+function recieveUpdatedFood(data, food) {
+    food.x = data.food.x;
+    food.y = data.food.y;
+    return food;
+}
+function recieveUpdatedGame(data, game) {
     game.oppo_score = data.score;
     game.gameOverFlag = data.gameOver;
-    if ('food' in data) {
-        food.x = data.food.x;
-        food.y = data.food.y;
-    }
+    return game;
 }
+// function recieveUpdatedParameters(data, oppo_snake, game, food) {
+//     oppo_snake.segments = [];
+//     for (let i=0; i<data.snake.segments.length; i++) {
+//         oppo_snake.addSegment({
+//             x: data.snake.segments[i].x,
+//             y: data.snake.segments[i].y,
+//         })
+//     };
+//     game.oppo_score = data.score;
+//     game.gameOverFlag= data.gameOver;
+//     if ('food' in data) {
+//         food.x = data.food.x
+//         food.y = data.food.y
+//     }
+// }
 function checkFoodCollision(snake, food, game) {
     // If hit food, add to snake and refresh food location
     if (snake.segments[0].x == food.x && snake.segments[0].y == food.y) {

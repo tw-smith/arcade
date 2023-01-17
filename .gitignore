@@ -1,6 +1,11 @@
 #db stuff
-/db/
+
+db/
 #/migrations
+
+#logs
+logs/
+
 
 #PyCharm .idea folder
 /.idea/

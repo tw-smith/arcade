@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { removeChildElements, randomIntRange } from "./utilities.js";
-export class gameParameters {
+export class GameParameters {
     constructor(render_rate, rampSpeed) {
         this.BACKGROUND_COLOUR = "black";
         this.SNAKE_COLOUR = "white";
@@ -129,7 +129,7 @@ export class Modal {
         });
     }
 }
-export class gameElement {
+export class GameElement {
     constructor(x, y, sizeX, sizeY, colour) {
         this.TILE_SIZE = 20; //TODO should this be here or somewhere else?
         this.x = x;
@@ -143,7 +143,7 @@ export class gameElement {
         ctx.fillRect(this.x * this.TILE_SIZE, this.y * this.TILE_SIZE, this.sizeX, this.sizeY);
     }
 }
-export class Food extends gameElement {
+export class Food extends GameElement {
     constructor() {
         super(randomIntRange(2, 28), randomIntRange(2, 28), 10, 10, "blue");
     }
@@ -166,8 +166,9 @@ export class Snake {
             { x: 8, y: 20 },
         ];
         this.segments = [];
-        this.direction = "right";
         this.game = game;
+        this.nextX = 1;
+        this.nextY = 0;
         if (role == 'host') {
             this.SNAKE_COLOUR = 'white';
             HOST_STARTING_POSITIONS.forEach((bodySegment) => {
@@ -182,50 +183,49 @@ export class Snake {
         }
     }
     addSegment(position) {
-        let newSegment = new gameElement(position.x, position.y, this.SNAKE_SIZE, this.SNAKE_SIZE, this.SNAKE_COLOUR);
+        let newSegment = new GameElement(position.x, position.y, this.SNAKE_SIZE, this.SNAKE_SIZE, this.SNAKE_COLOUR);
         this.segments.push(newSegment);
     }
-    move(direction = undefined) {
-        if (direction != undefined) {
-            switch (direction) {
-                case "up":
-                    if (this.nextY != 1) {
-                        this.nextX = 0;
-                        this.nextY = -1;
-                        break;
-                    }
+    changeDirection(direction) {
+        switch (direction) {
+            case "up":
+                if (this.nextY != 1) {
+                    this.nextX = 0;
+                    this.nextY = -1;
                     break;
-                case "down":
-                    if (this.nextY != -1) {
-                        this.nextX = 0;
-                        this.nextY = 1;
-                        break;
-                    }
+                }
+                break;
+            case "down":
+                if (this.nextY != -1) {
+                    this.nextX = 0;
+                    this.nextY = 1;
                     break;
-                case "left":
-                    if (this.nextX != 1) {
-                        this.nextX = -1;
-                        this.nextY = 0;
-                        break;
-                    }
+                }
+                break;
+            case "left":
+                if (this.nextX != 1) {
+                    this.nextX = -1;
+                    this.nextY = 0;
                     break;
-                case "right":
-                    if (this.nextX != -1) {
-                        this.nextX = 1;
-                        this.nextY = 0;
-                        break;
-                    }
+                }
+                break;
+            case "right":
+                if (this.nextX != -1) {
+                    this.nextX = 1;
+                    this.nextY = 0;
                     break;
-            }
+                }
+                break;
         }
-        // move snake
-        this.segments.pop(); //remove tail - // TODO: check if this prevents a collision detection with final tail segment
+    }
+    move() {
+        this.segments.pop();
         let newHeadPos = {
             x: this.segments[0].x + this.nextX,
             y: this.segments[0].y + this.nextY,
         };
         this.gameOverCheck(newHeadPos, this.game);
-        this.segments.unshift(new gameElement(newHeadPos.x, newHeadPos.y, this.SNAKE_SIZE, this.SNAKE_SIZE, this.SNAKE_COLOUR));
+        this.segments.unshift(new GameElement(newHeadPos.x, newHeadPos.y, this.SNAKE_SIZE, this.SNAKE_SIZE, this.SNAKE_COLOUR));
     }
     gameOverCheck(newHeadPos, game) {
         // check if we've hit our own tail

@@ -1,6 +1,6 @@
 import { removeChildElements, randomIntRange } from "./utilities.js";
 
-export class gameParameters {
+export class GameParameters {
     BACKGROUND_COLOUR: string;
     SNAKE_COLOUR: string;
     SNAKE_HEAD_COLOUR: string;
@@ -147,7 +147,7 @@ async update(option: string) {
 }
 }
   
-export class gameElement {
+export class GameElement {
 x: number;
 y: number;
 sizeX: number;
@@ -180,7 +180,7 @@ draw(ctx) {
 }
 }
   
-export class Food extends gameElement {
+export class Food extends GameElement {
 constructor() {
     super(randomIntRange(2, 28), randomIntRange(2, 28), 10, 10, "blue");
 }
@@ -192,13 +192,13 @@ refresh() {
 }
   
 export class Snake {
-    segments: gameElement[];
+    segments: GameElement[];
     nextX: number;
     nextY: number;
     direction: string;
     SNAKE_COLOUR: string;
     SNAKE_SIZE: number = 20;
-    game: gameParameters;
+    game: GameParameters;
 
     constructor(role, game) {
         const HOST_STARTING_POSITIONS = [ 
@@ -215,26 +215,27 @@ export class Snake {
 
 
         this.segments = [];
-        this.direction = "right";
         this.game = game;
+        this.nextX = 1;
+        this.nextY = 0;
 
         if (role == 'host') {
             this.SNAKE_COLOUR = 'white'
-            HOST_STARTING_POSITIONS.forEach((bodySegment: gameElement) => {
+            HOST_STARTING_POSITIONS.forEach((bodySegment: GameElement) => {
                 this.addSegment(bodySegment);
                 });
         }
 
         if (role == 'client') {
             this.SNAKE_COLOUR = 'blue'
-            CLIENT_STARTING_POSITIONS.forEach((bodySegment: gameElement) => {
+            CLIENT_STARTING_POSITIONS.forEach((bodySegment: GameElement) => {
                 this.addSegment(bodySegment);
                 });
         }
     }
 
     addSegment(position) {
-        let newSegment = new gameElement(
+        let newSegment = new GameElement(
             position.x,
             position.y,
             this.SNAKE_SIZE,
@@ -244,49 +245,48 @@ export class Snake {
         this.segments.push(newSegment);
     }
 
-    move(direction=undefined) {
-        if (direction != undefined) {
-            switch (direction) {
-                case "up":
-                    if (this.nextY != 1) {
-                    this.nextX = 0;
-                    this.nextY = -1;
-                    break;
-                    }
-                    break;
-                case "down":
-                    if (this.nextY != -1) {
-                    this.nextX = 0;
-                    this.nextY = 1;
-                    break;
-                    }
-                    break;
-                case "left":
-                    if (this.nextX != 1) {
-                    this.nextX = -1;
-                    this.nextY = 0;
-                    break;
-                    }
-                    break;
-                case "right":
-                    if (this.nextX != -1) {
-                    this.nextX = 1;
-                    this.nextY = 0;
-                    break;
-                    }
-                    break;
+    changeDirection(direction) {
+        switch (direction) {
+            case "up":
+                if (this.nextY != 1) {
+                this.nextX = 0;
+                this.nextY = -1;
+                break;
                 }
-        }
+                break;
+            case "down":
+                if (this.nextY != -1) {
+                this.nextX = 0;
+                this.nextY = 1;
+                break;
+                }
+                break;
+            case "left":
+                if (this.nextX != 1) {
+                this.nextX = -1;
+                this.nextY = 0;
+                break;
+                }
+                break;
+            case "right":
+                if (this.nextX != -1) {
+                this.nextX = 1;
+                this.nextY = 0;
+                break;
+                }
+                break;
+            }
+    }
 
-        // move snake
-        this.segments.pop(); //remove tail - // TODO: check if this prevents a collision detection with final tail segment
+    move() {
+        this.segments.pop();
         let newHeadPos = {
         x: this.segments[0].x + this.nextX,
         y: this.segments[0].y + this.nextY,
         };
         this.gameOverCheck(newHeadPos, this.game);
         this.segments.unshift(
-        new gameElement(
+        new GameElement(
             newHeadPos.x,
             newHeadPos.y,
             this.SNAKE_SIZE,
@@ -317,6 +317,4 @@ export class Snake {
         game.gameOver();
         }
     }
-
-// TODO move controls event listner logic to here or another class?
 }

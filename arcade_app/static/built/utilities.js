@@ -6,3 +6,6 @@ export const removeChildElements = (parent) => {
 export function randomIntRange(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
+export function redirect(destination) {
+    window.location.href = destination;
+}

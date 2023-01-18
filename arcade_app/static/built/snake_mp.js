@@ -103,21 +103,6 @@ function recieveUpdatedGame(data, game) {
     game.gameOverFlag = data.gameOver;
     return game;
 }
-// function recieveUpdatedParameters(data, oppo_snake, game, food) {
-//     oppo_snake.segments = [];
-//     for (let i=0; i<data.snake.segments.length; i++) {
-//         oppo_snake.addSegment({
-//             x: data.snake.segments[i].x,
-//             y: data.snake.segments[i].y,
-//         })
-//     };
-//     game.oppo_score = data.score;
-//     game.gameOverFlag= data.gameOver;
-//     if ('food' in data) {
-//         food.x = data.food.x
-//         food.y = data.food.y
-//     }
-// }
 function checkFoodCollision(snake, food, game) {
     // If hit food, add to snake and refresh food location
     if (snake.segments[0].x == food.x && snake.segments[0].y == food.y) {
